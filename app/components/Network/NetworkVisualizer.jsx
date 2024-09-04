@@ -5,6 +5,7 @@ import * as d3 from "d3";
 
 const NetworkGraph = ({ nodesData, linksData }) => {
   const svgRef = useRef();
+  const [selectedNode, setSelectedNode] = useState(null);
   const [tooltip, setTooltip] = useState({
     show: false,
     x: 0,
@@ -57,6 +58,9 @@ const NetworkGraph = ({ nodesData, linksData }) => {
       .attr("y", (d) => d.y - 20)
       .style("cursor", "pointer")
       .call(drag(simulation))
+      .on("click", (event, d) => {
+        setSelectedNode(d.id);
+      })
       .on("mouseover", (event, d) => {
         const [x, y] = d3.pointer(event);
         setTooltip({
@@ -79,7 +83,38 @@ const NetworkGraph = ({ nodesData, linksData }) => {
 
       node.attr("x", (d) => d.x - 20).attr("y", (d) => d.y - 20);
     });
-  }, [nodesData, linksData]);
+
+    if (selectedNode !== null) {
+      link
+        .attr("stroke", (d) =>
+          d.source.id === selectedNode || d.target.id === selectedNode
+            ? "red"
+            : "#aaa"
+        )
+        .attr("stroke-width", (d) =>
+          d.source.id === selectedNode || d.target.id === selectedNode
+            ? 4
+            : 2
+        );
+
+      node
+        .attr("xlink:href", (d) => {
+          if (d.type === "router") return "/router.png";
+          if (d.type === "pc") return "/pc.png";
+          if (d.type === "server") return "/server.png";
+        })
+        .attr("opacity", (d) =>
+          d.id === selectedNode ||
+          linksData.some(
+            (link) =>
+              (link.source.id === selectedNode && link.target.id === d.id) ||
+              (link.target.id === selectedNode && link.source.id === d.id)
+          )
+            ? 1
+            : 0.5
+        );
+    }
+  }, [nodesData, linksData, selectedNode]);
 
   const drag = (simulation) => {
     return d3
@@ -113,6 +148,12 @@ const NetworkGraph = ({ nodesData, linksData }) => {
           <div>Type: {tooltip.content.type}</div>
         </div>
       )}
+      <button
+        onClick={() => setSelectedNode(null)}
+        className="absolute top-0 right-0 m-2 bg-blue-500 text-white p-2 rounded"
+      >
+        Reset
+      </button>
     </div>
   );
 };
