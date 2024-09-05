@@ -2,10 +2,14 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-
-const NetworkGraph = ({ nodesData, linksData }) => {
+const NetworkGraph = ({
+  nodesData,
+  linksData,
+  selectedNode,
+  setSelectedNode,
+  showAdjacency,
+}) => {
   const svgRef = useRef();
-  const [selectedNode, setSelectedNode] = useState(null);
   const [tooltip, setTooltip] = useState({
     show: false,
     x: 0,
@@ -32,7 +36,7 @@ const NetworkGraph = ({ nodesData, linksData }) => {
       )
       .force("charge", d3.forceManyBody().strength(-200))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(20)); // Prevent overlap
+      .force("collision", d3.forceCollide().radius(20));
 
     const link = svg
       .append("g")
@@ -59,7 +63,9 @@ const NetworkGraph = ({ nodesData, linksData }) => {
       .style("cursor", "pointer")
       .call(drag(simulation))
       .on("click", (event, d) => {
-        setSelectedNode(d.id);
+        if (showAdjacency) {
+          setSelectedNode(d.id);
+        }
       })
       .on("mouseover", (event, d) => {
         const [x, y] = d3.pointer(event);
@@ -84,7 +90,7 @@ const NetworkGraph = ({ nodesData, linksData }) => {
       node.attr("x", (d) => d.x - 20).attr("y", (d) => d.y - 20);
     });
 
-    if (selectedNode !== null) {
+    if (showAdjacency && selectedNode !== null) {
       link
         .attr("stroke", (d) =>
           d.source.id === selectedNode || d.target.id === selectedNode
@@ -92,29 +98,21 @@ const NetworkGraph = ({ nodesData, linksData }) => {
             : "#aaa"
         )
         .attr("stroke-width", (d) =>
-          d.source.id === selectedNode || d.target.id === selectedNode
-            ? 4
-            : 2
+          d.source.id === selectedNode || d.target.id === selectedNode ? 2 : 2
         );
 
-      node
-        .attr("xlink:href", (d) => {
-          if (d.type === "router") return "/router.png";
-          if (d.type === "pc") return "/pc.png";
-          if (d.type === "server") return "/server.png";
-        })
-        .attr("opacity", (d) =>
-          d.id === selectedNode ||
-          linksData.some(
-            (link) =>
-              (link.source.id === selectedNode && link.target.id === d.id) ||
-              (link.target.id === selectedNode && link.source.id === d.id)
-          )
-            ? 1
-            : 0.5
-        );
+      node.attr("opacity", (d) =>
+        d.id === selectedNode ||
+        linksData.some(
+          (link) =>
+            (link.source.id === selectedNode && link.target.id === d.id) ||
+            (link.target.id === selectedNode && link.source.id === d.id)
+        )
+          ? 1
+          : 0.5
+      );
     }
-  }, [nodesData, linksData, selectedNode]);
+  }, [nodesData, linksData, selectedNode, showAdjacency]);
 
   const drag = (simulation) => {
     return d3
@@ -148,12 +146,6 @@ const NetworkGraph = ({ nodesData, linksData }) => {
           <div>Type: {tooltip.content.type}</div>
         </div>
       )}
-      <button
-        onClick={() => setSelectedNode(null)}
-        className="absolute top-0 right-0 m-2 bg-blue-500 text-white p-2 rounded"
-      >
-        Reset
-      </button>
     </div>
   );
 };
