@@ -102,3 +102,56 @@ export const links = [
     { source: 6, target: 36 },
     { source: 6, target: 37 },
 ];
+
+export const logs = [
+    {
+        event: "Pressure threshold exceeded at Node 12.",
+        time: "2024-09-09T10:30:00Z",
+        key: 1
+    },
+    {
+        event: "Temperature sensors recalibrated successfully at Station 4.",
+        time: "2024-09-09T11:00:00Z",
+        key: 2
+    },
+    {
+        event: "Data loss detected between Node 7 and Node 8.",
+        time: "2024-09-09T11:30:00Z",
+        key: 3
+    },
+    {
+        event: "Power grid load balancing algorithm optimized for peak hours.",
+        time: "2024-09-09T12:00:00Z",
+        key: 4
+    },
+    {
+        event: "Unexpected drop in flow rate at Pump 3.",
+        time: "2024-09-09T12:30:00Z",
+        key: 5
+    },
+    {
+        event: "Pressure threshold exceeded at Node 12.",
+        time: "2024-09-09T10:30:00Z",
+        key: 6
+    },
+    {
+        event: "Temperature sensors recalibrated successfully at Station 4.",
+        time: "2024-09-09T11:00:00Z",
+        key: 7
+    },
+    {
+        event: "Data loss detected between Node 7 and Node 8.",
+        time: "2024-09-09T11:30:00Z",
+        key: 8
+    },
+    {
+        event: "Power grid load balancing algorithm optimized for peak hours.",
+        time: "2024-09-09T12:00:00Z",
+        key: 9
+    },
+    {
+        event: "Unexpected drop in flow rate at Pump 3.",
+        time: "2024-09-09T12:30:00Z",
+        key: 10
+    }
+];

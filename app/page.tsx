@@ -4,7 +4,7 @@ import Console from "./components/Console/Console";
 import Navbar from "./components/NavBar";
 import ButtonGroup from "./components/Network/ButtonGroup";
 import NetworkGraph from "./components/Network/NetworkVisualizer.jsx";
-import { nodes, links } from "./constants/index";
+import { nodes, links, logs } from "./constants/index";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -27,11 +27,13 @@ export default function Home() {
     router.refresh();
   };
 
+  // write the fetch function here and then send it to both the network graph and console if any changes happen then it will work like refresh key 
+  
   return (
     <main className="flex h-screen">
       <Navbar />
-      <section className="w-3/5 bg-white p-4">
-        <h1 className="text-2xl font-bold underline">Current Network State</h1>
+      <section className="w-3/5 bg-gray-300/20 p-4">
+        <h1 className="text-3xl font-bold font-mono pb-4">Current Network State</h1>
         <NetworkGraph
           key={refreshKey}
           nodesData={nodes}
@@ -47,7 +49,7 @@ export default function Home() {
           handleRefresh={handleRefresh}
         />
       </section>
-      <Console count={refreshKey} />
+      <Console logs={logs} />
     </main>
   );
 }

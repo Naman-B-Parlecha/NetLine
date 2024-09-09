@@ -1,29 +1,39 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import cls from "./console.module.css";
+import { formatDate } from "@/app/lib/timeFormatter";
 
 interface DataItem {
-  id: number;
-  message: string;
+  event: string;
+  time: string;
+  key: number;
 }
 
-const Console = ({ count }: { count: number }) => {
+const Console = ({ logs }: { logs: DataItem[] }) => {
   const [data, setData] = useState<DataItem[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const consoleRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (consoleRef.current) {
+      consoleRef.current.scrollTop = consoleRef.current.scrollHeight;
+    }
+  }, [logs]);
 
   const fetchData = async () => {
-    try {
-      const response = await fetch("xyz");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result: DataItem[] = await response.json();
-      setData(result);
-      console.log("New data fetched:", result);
-    } catch (err) {
-      setError((err as Error).message);
-      console.error("Failed to fetch data:", err);
-    }
+    // try {
+    //   const response = await fetch("xyz"); // Make sure "xyz" is a valid endpoint
+    //   if (!response.ok) {
+    //     throw new Error("Network response was not ok");
+    //   }
+    //   const result: DataItem[] = await response.json();
+    //   setData(result);
+    //   console.log("New data fetched:", result);
+    // } catch (err) {
+    //   setError((err as Error).message);
+    //   console.error("Failed to fetch data:", err);
+    // }
   };
 
   useEffect(() => {
@@ -31,14 +41,25 @@ const Console = ({ count }: { count: number }) => {
     const intervalId = setInterval(fetchData, 15000);
 
     return () => clearInterval(intervalId);
-  }, [count]);
+  }, []); // No dependencies, runs only once
 
   return (
-    <aside className="w-1/5 bg-gray-200 p-4">
-      <h2 className="text-xl font-bold mb-4">Console</h2>
-      {/* {error && <p>Error: {error}</p>}
-      {data && data.map((d) => <p key={d.id}>{d.message}</p>)} */}
-      {count}
+    <aside className="w-1/5 bg-white p-3 border-l-2 border-blue-500/20">
+      <h2 className="font-bold mb-4 text-2xl">Console</h2>
+      <div
+        className={`w-full flex flex-col gap-2 max-h-[40rem] overflow-auto ${cls["hidden-scrollbar"]}`}
+        ref={consoleRef}
+      >
+        {logs?.length > 0 &&
+          logs.map((l) => (
+            <div
+              key={l.key}
+              className="bg-blue-500/95 text-white w-full p-2 rounded-md whitespace-pre-line"
+            >
+              {`${formatDate(l.time)} : \n${l.event}`}
+            </div>
+          ))}
+      </div>
     </aside>
   );
 };

@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const routes: {
@@ -12,7 +14,7 @@ const routes: {
   {
     id: 1,
     routeName: "Network",
-    path: "",
+    path: "/",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -83,14 +85,25 @@ const routes: {
 ];
 
 const Navbar = () => {
+  const pathName = usePathname();
   return (
-    <nav className="w-1/5 bg-gray-100 p-4 pt-8">
+    <nav className="w-1/5 bg-white p-4 flex flex-col gap-6 border-r-blue-500/20 border-2">
+      <div className="w-full flex flex-row flex-nowrap items-center gap-2 p-2">
+        <Image src={"/logo.png"} alt="logo" width={40} height={40} />
+        <h1 className="text-3xl font-bold">
+          Net<span className="text-blue-500">Line</span>
+        </h1>
+      </div>
       <ul className="space-y-2 font-medium">
         {routes.map((route) => (
           <li key={route.id.toString()}>
             <Link
               href={route.path}
-              className="flex items-center p-4 text-gray-900 rounded-lg hover:bg-black/10 group w-full"
+              className={`flex items-center p-4 text-gray-900 rounded-lg  group w-full ${
+                pathName === route.path
+                  ? "bg-blue-500 text-white hover:bg-blue-500/100"
+                  : "hover:bg-blue-500/15"
+              }`}
             >
               {route.svg}
               <span className="ms-3">{route.routeName}</span>

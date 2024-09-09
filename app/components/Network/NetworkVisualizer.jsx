@@ -18,8 +18,8 @@ const NetworkGraph = ({
   });
 
   useEffect(() => {
-    const width = 900;
-    const height = 600;
+    const width = 885;
+    const height = 575;
 
     const svg = d3
       .select(svgRef.current)
@@ -34,7 +34,7 @@ const NetworkGraph = ({
         "link",
         d3.forceLink(linksData).id((d) => d.id)
       )
-      .force("charge", d3.forceManyBody().strength(-200))
+      .force("charge", d3.forceManyBody().strength(-100))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide().radius(20));
 
@@ -134,7 +134,7 @@ const NetworkGraph = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative border-blue-500/20 border-2 rounded-xl bg-white">
       <svg ref={svgRef}></svg>
       {tooltip.show && (
         <div
