@@ -23,17 +23,18 @@ export default function Home() {
   };
 
   const handleRefresh = () => {
-    setRefreshKey(prev => prev + 1);
+    setRefreshKey((prev) => prev + 1);
     router.refresh();
   };
 
-  // write the fetch function here and then send it to both the network graph and console if any changes happen then it will work like refresh key 
-  
+  // write the fetch function here and then send it to both the network graph and console if any changes happen then it will work like refresh key
+
   return (
-    <main className="flex h-screen">
-      <Navbar />
-      <section className="w-3/5 bg-gray-300/20 p-4">
-        <h1 className="text-3xl font-bold font-mono pb-4">Current Network State</h1>
+    <main className="flex h-screen w-full">
+      <section className="w-3/4 bg-gray-300/20 p-4">
+        <h1 className="text-3xl font-bold font-mono pb-4">
+          Current Network State
+        </h1>
         <NetworkGraph
           key={refreshKey}
           nodesData={nodes}

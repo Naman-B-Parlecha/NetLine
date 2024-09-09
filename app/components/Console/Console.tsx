@@ -44,7 +44,7 @@ const Console = ({ logs }: { logs: DataItem[] }) => {
   }, []); // No dependencies, runs only once
 
   return (
-    <aside className="w-1/5 bg-white p-3 border-l-2 border-blue-500/20">
+    <aside className="w-1/4 bg-white p-3 border-l-2 border-blue-500/20">
       <h2 className="font-bold mb-4 text-2xl">Console</h2>
       <div
         className={`w-full flex flex-col gap-2 max-h-[40rem] overflow-auto ${cls["hidden-scrollbar"]}`}

@@ -38,8 +38,8 @@ const routes: {
   },
   {
     id: 2,
-    routeName: "Dashboard",
-    path: "/dashboard",
+    routeName: "SysLog",
+    path: "/syslog",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -48,15 +48,20 @@ const routes: {
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="lucide lucide-layout-dashboard"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        className="lucide lucide-logs"
       >
-        <rect width="7" height="9" x="3" y="3" rx="1" />
-        <rect width="7" height="5" x="14" y="3" rx="1" />
-        <rect width="7" height="9" x="14" y="12" rx="1" />
-        <rect width="7" height="5" x="3" y="16" rx="1" />
+        <path d="M13 12h8" />
+        <path d="M13 18h8" />
+        <path d="M13 6h8" />
+        <path d="M3 12h1" />
+        <path d="M3 18h1" />
+        <path d="M3 6h1" />
+        <path d="M8 12h1" />
+        <path d="M8 18h1" />
+        <path d="M8 6h1" />
       </svg>
     ),
   },
