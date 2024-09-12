@@ -34,7 +34,7 @@ const NetworkGraph = ({
         "link",
         d3.forceLink(linksData).id((d) => d.id)
       )
-      .force("charge", d3.forceManyBody().strength(-100))
+      .force("charge", d3.forceManyBody().strength(-8000))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide().radius(20));
 
@@ -56,8 +56,8 @@ const NetworkGraph = ({
         if (d.type === "pc") return "/pc.png";
         if (d.type === "server") return "/server.png";
       })
-      .attr("width", 30)
-      .attr("height", 30)
+      .attr("width", 60)
+      .attr("height", 60)
       .attr("x", (d) => d.x - 20)
       .attr("y", (d) => d.y - 20)
       .style("cursor", "pointer")
@@ -68,12 +68,18 @@ const NetworkGraph = ({
         }
       })
       .on("mouseover", (event, d) => {
+        console.log("here boss = ", d);
         const [x, y] = d3.pointer(event);
         setTooltip({
           show: true,
           x: x + 20, // Adjust this offset to position the tooltip closer or farther
           y: y - 20,
-          content: { id: d.id, name: d.name, type: d.type },
+          content: {
+            id: d.id,
+            name: d.name,
+            type: d.type,
+            interfaces: d.interfaces,
+          },
         });
       })
       .on("mouseout", () => {
@@ -138,12 +144,18 @@ const NetworkGraph = ({
       <svg ref={svgRef}></svg>
       {tooltip.show && (
         <div
-          className="absolute bg-gray-800 text-white text-sm p-2 rounded shadow-lg"
+          className="absolute bg-gray-800/70 text-white text-sm p-4 rounded shadow-lg"
           style={{ top: tooltip.y, left: tooltip.x }}
         >
           <div>ID: {tooltip.content.id}</div>
           <div>Name: {tooltip.content.name}</div>
           <div>Type: {tooltip.content.type}</div>
+          <div>
+            Interfaces:
+            {tooltip.content.interfaces &&
+              tooltip.content.interfaces.length > 0 &&
+              tooltip.content.interfaces.map((ifs) => <div className="pl-4">{ifs.name} : {ifs.ip}</div>)}
+          </div>
         </div>
       )}
     </div>
