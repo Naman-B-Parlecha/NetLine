@@ -92,10 +92,10 @@ const connections_pre = [
 
 let links = [];
 
-for (let i=0; i<connections_pre.length; i++) {
+for (let i = 0; i < connections_pre.length; i++) {
     const connection = connections_pre[i];
-    const source = nodes.find(node => node.interfaces.find(ifc => ifc.ip === connection.source)) || { id: ""};
-    const target = nodes.find(node => node.interfaces.find(ifc => ifc.ip === connection.target)) || { id: ""};
+    const source = nodes.find(node => node.interfaces.find(ifc => ifc.ip === connection.source)) || { id: "" };
+    const target = nodes.find(node => node.interfaces.find(ifc => ifc.ip === connection.target)) || { id: "" };
     links.push({ source: source.id, target: target.id });
 }
 
@@ -289,3 +289,185 @@ export const mockLogs = [
         host: "192.168.100.6"
     }
 ];
+
+// id = id
+// timestamp = timestamp1
+// severity = number
+// message = %system-config_type: description
+// soruce = not there
+// host = ip_address
+
+// serverity and codes
+
+// 1. **Emergency**
+// 2. **Alert**
+// 3. **Critical**
+// 4. **Error**
+// 5. **Warning**
+// 6. **Notice**
+// 7. **Informational**
+// 8. **Debug**
+
+
+export const sysLogData = [
+    {
+        "id": 1,
+        "timestamp1": "1900-09-09T11:55:53",
+        "timestamp2": "1900-03-01T09:52:13.577000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "SYS-CONFIG_I:Configured from console by console"
+    },
+    {
+        "id": 2,
+        "timestamp1": "1900-09-10T00:58:14",
+        "timestamp2": "1900-03-01T13:22:17.520000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "SYS-CONFIG_I:Configured from console by console"
+    },
+    {
+        "id": 3,
+        "timestamp1": "1900-09-10T00:59:43",
+        "timestamp2": "1900-03-01T13:23:53.416000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "SYS-CONFIG_I:Configured from console by console"
+    },
+    {
+        "id": 4,
+        "timestamp1": "1900-09-10T01:01:15",
+        "timestamp2": "1900-03-01T13:25:25.324000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "SYS-CONFIG_I:Configured from console by console"
+    },
+    {
+        "id": 5,
+        "timestamp1": "1900-09-10T01:02:09",
+        "timestamp2": "1900-03-01T13:26:19.388000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "LINK-CHANGED:Interface FastEthernet0/1, changed state to administratively down"
+    },
+    {
+        "id": 6,
+        "timestamp1": "1900-09-10T01:02:09",
+        "timestamp2": "1900-03-01T13:26:20.300000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "SYS-CONFIG_I:Configured from console by console"
+    },
+    {
+        "id": 7,
+        "timestamp1": "1900-09-10T01:02:09",
+        "timestamp2": "1900-03-01T13:26:20.388000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "LINEPROTO-UPDOWN:Line protocol on Interface FastEthernet0/1, changed state to down"
+    },
+    {
+        "id": 8,
+        "timestamp1": "1900-09-10T01:03:13",
+        "timestamp2": "1900-03-01T13:27:23.636000",
+        "ip_address": "192.168.100.5",
+        "severity": "3",
+        "message": "LINK-UPDOWN:Interface FastEthernet0/1, changed state to up"
+    },
+    {
+        "id": 9,
+        "timestamp1": "1900-09-10T01:03:14",
+        "timestamp2": "1900-03-01T13:27:24.132000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "SYS-CONFIG_I:Configured from console by console"
+    },
+    {
+        "id": 10,
+        "timestamp1": "1900-09-10T01:03:14",
+        "timestamp2": "1900-03-01T13:27:24.636000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "LINEPROTO-UPDOWN:Line protocol on Interface FastEthernet0/1, changed state to up"
+    },
+    {
+        "id": 11,
+        "timestamp1": "1900-09-10T15:01:42",
+        "timestamp2": "1900-03-01T15:20:34.612000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "SYS-CONFIG_I:Configured from console by console"
+    },
+    {
+        "id": 12,
+        "timestamp1": "1900-09-10T15:08:55",
+        "timestamp2": "1900-03-01T00:00:03.159000",
+        "ip_address": "192.168.100.5",
+        "severity": "6",
+        "message": "SYS-LOGGINGHOST_STARTSTOP:Logging to host 192.168.100.1 started - CLI initiated"
+    },
+    {
+        "id": 13,
+        "timestamp1": "1900-09-10T15:08:57",
+        "timestamp2": "1900-03-01T00:00:04.107000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "LINEPROTO-UPDOWN:Line protocol on Interface FastEthernet0/0, changed state to up"
+    },
+    {
+        "id": 14,
+        "timestamp1": "1900-09-10T15:08:57",
+        "timestamp2": "1900-03-01T00:00:04.115000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "LINEPROTO-UPDOWN:Line protocol on Interface FastEthernet0/1, changed state to up"
+    },
+    {
+        "id": 15,
+        "timestamp1": "1900-09-10T15:08:57",
+        "timestamp2": "1900-03-01T00:00:04.143000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "LINEPROTO-UPDOWN:Line protocol on Interface FastEthernet1/0, changed state to up"
+    },
+    {
+        "id": 16,
+        "timestamp1": "1900-09-10T15:09:58",
+        "timestamp2": "1900-03-01T15:03:37.688000",
+        "ip_address": "192.168.108.2",
+        "severity": "5",
+        "message": "SYS-CONFIG_I:Configured from console by console"
+    },
+    {
+        "id": 17,
+        "timestamp1": "1900-09-10T15:11:49",
+        "timestamp2": "1900-03-01T00:02:49.635000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "DUAL-NBRCHANGE:IP-EIGRP(0) 100: Neighbor 192.168.108.2 (FastEthernet1/0) is down: holding time expired"
+    },
+    {
+        "id": 18,
+        "timestamp1": "1900-09-10T19:58:19",
+        "timestamp2": "1900-03-01T03:00:28.975000",
+        "ip_address": "192.168.100.5",
+        "severity": "5",
+        "message": "LINEPROTO-UPDOWN:Line protocol on Interface NVI0, changed state to up"
+    },
+    {
+        "id": 19,
+        "timestamp1": "1900-09-10T19:58:22",
+        "timestamp2": "1900-03-01T03:00:35.435000",
+        "ip_address": "192.168.100.5",
+        "severity": "3",
+        "message": "SYS-CPUHOG:Task is running for (2036)msecs, more than (2000)msecs (0/0),process = Exec."
+    },
+    {
+        "id": 20,
+        "timestamp1": "1900-09-10T19:58:22",
+        "timestamp2": "1900-03-01T03:00:36.719000",
+        "ip_address": "192.168.100.5",
+        "severity": "3",
+        "message": "SYS-CPUYLD:Task ran for (3320)msecs, more than (2000)msecs (0/0),process = Exec"
+    }
+]

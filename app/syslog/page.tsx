@@ -36,18 +36,35 @@ import { CalendarIcon, FilterIcon, RefreshCwIcon } from "lucide-react";
 import { format, parseISO } from "date-fns";
 
 // Mock log data (replace this with your actual API call)
-import { mockLogs } from "../constants/index";
+import { sysLogData } from "../constants/index";
 import { useRouter } from "next/navigation";
 
 const severityColors = {
-  INFO: "bg-blue-500",
-  WARNING: "bg-yellow-500",
-  ERROR: "bg-red-500",
+  "1": "bg-red-900",
+  "2": "bg-orange-600",
+  "3": "bg-red-700",
+  "4": "bg-rose-600",
+  "5": "bg-yellow-500",
+  "6": "bg-blue-400",
+  "7": "bg-green-500",
+  "8": "bg-purple-500",
+};
+
+const severityMapping: Record<string, string | null> = {
+  ALL: null, // Represents no filtering
+  EMERGENCY: "1",
+  ALERT: "2",
+  CRITICAL: "3",
+  ERROR: "4",
+  WARNING: "5",
+  NOTICE: "6",
+  INFORMATIONAL: "7",
+  DEBUG: "8",
 };
 
 export default function Component() {
   const router = useRouter();
-  const [logs, setLogs] = useState(mockLogs);
+  const [logs, setLogs] = useState(sysLogData);
   const [filteredLogs, setFilteredLogs] = useState(logs);
   const [searchTerm, setSearchTerm] = useState("");
   const [severityFilter, setSeverityFilter] = useState("ALL");
@@ -59,18 +76,20 @@ export default function Component() {
   const [logsPerPage, setLogsPerPage] = useState<number>(9);
   const [loading, setLoading] = useState(false); // Add a loading state
 
-  const hosts = Array.from(new Set(logs.map((log) => log.host)));
+  const hosts = Array.from(new Set(logs.map((log) => log.ip_address)));
 
   useEffect(() => {
     // Apply filters
     let filtered = logs.filter((log) => {
-      const logDate = parseISO(log.timestamp); // Ensure date is parsed consistently
-      const matchesSearch =
-        log.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        log.source.toLowerCase().includes(searchTerm.toLowerCase());
+      const logDate = parseISO(log.timestamp1); // Ensure date is parsed consistently
+      const matchesSearch = log.message
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      // log.source.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesSeverity =
-        severityFilter === "ALL" || log.severity === severityFilter;
-      const matchesHost = hostFilter === "ALL" || log.host === hostFilter;
+        severityFilter === "ALL" ||
+        log.severity === severityMapping[severityFilter];
+      const matchesHost = hostFilter === "ALL" || log.ip_address === hostFilter;
       const matchesDateRange =
         (!startDate || logDate >= startDate) &&
         (!endDate || logDate <= endDate);
@@ -84,7 +103,7 @@ export default function Component() {
   }, [logs, searchTerm, severityFilter, hostFilter, startDate, endDate]);
 
   useEffect(() => {
-    setLogsPerPage((prev) => (prev === 6 ? 9 : 6));
+    setLogsPerPage((prev) => (prev === 7 ? 10 : 7));
   }, [showFilters]);
 
   const indexOfLastLog = currentPage * logsPerPage;
@@ -139,9 +158,14 @@ export default function Component() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="ALL">All Severities</SelectItem>
-              <SelectItem value="INFO">Info</SelectItem>
-              <SelectItem value="WARNING">Warning</SelectItem>
+              <SelectItem value="EMERGENCY">Emergency</SelectItem>
+              <SelectItem value="ALERT">Alert</SelectItem>
+              <SelectItem value="CRITICAL">Critical</SelectItem>
               <SelectItem value="ERROR">Error</SelectItem>
+              <SelectItem value="WARNING">Warning</SelectItem>
+              <SelectItem value="NOTICE">Notice</SelectItem>
+              <SelectItem value="INFORMATIONAL">Informational</SelectItem>
+              <SelectItem value="DEBUG">Debug</SelectItem>
             </SelectContent>
           </Select>
 
@@ -219,7 +243,7 @@ export default function Component() {
           <TableBody>
             {currentLogs.map((log) => (
               <TableRow key={log.id}>
-                <TableCell>{format(parseISO(log.timestamp), "Pp")}</TableCell>
+                <TableCell>{format(parseISO(log.timestamp1), "Pp")}</TableCell>
                 <TableCell>
                   <span
                     className={`inline-block w-3 h-3 rounded-full mr-2 ${
@@ -228,9 +252,25 @@ export default function Component() {
                       ]
                     }`}
                   ></span>
-                  {log.severity}
+                  {parseInt(log.severity) === 1
+                    ? "Emergency"
+                    : parseInt(log.severity) === 2
+                    ? "Alert"
+                    : parseInt(log.severity) === 3
+                    ? "Critical"
+                    : parseInt(log.severity) === 4
+                    ? "Error"
+                    : parseInt(log.severity) === 5
+                    ? "Warning"
+                    : parseInt(log.severity) === 6
+                    ? "Notice"
+                    : parseInt(log.severity) === 7
+                    ? "Informational"
+                    : parseInt(log.severity) === 8
+                    ? "Debug"
+                    : "Unknown"}
                 </TableCell>
-                <TableCell>{log.host}</TableCell>
+                <TableCell>{log.ip_address}</TableCell>
                 <TableCell className="max-w-xl truncate">
                   <Dialog>
                     <DialogTrigger asChild>
@@ -243,12 +283,42 @@ export default function Component() {
                         <DialogTitle>Log Details</DialogTitle>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
-                        <p className="text-sm text-muted-foreground">
-                          Source: {log.source}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Message: {log.message}
-                        </p>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <span className="font-bold">Timestamp:</span>
+                          <span className="col-span-3">
+                            {new Date(log.timestamp1).toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <span className="font-bold">Severity:</span>
+                          <span className="col-span-3">
+                            {parseInt(log.severity) === 1
+                              ? "Emergency"
+                              : parseInt(log.severity) === 2
+                              ? "Alert"
+                              : parseInt(log.severity) === 3
+                              ? "Critical"
+                              : parseInt(log.severity) === 4
+                              ? "Error"
+                              : parseInt(log.severity) === 5
+                              ? "Warning"
+                              : parseInt(log.severity) === 6
+                              ? "Notice"
+                              : parseInt(log.severity) === 7
+                              ? "Informational"
+                              : parseInt(log.severity) === 8
+                              ? "Debug"
+                              : "Unknown"}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <span className="font-bold">Host:</span>
+                          <span className="col-span-3">{log.ip_address}</span>
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <span className="font-bold">Message:</span>
+                          <span className="col-span-3">{log.message}</span>
+                        </div>
                       </div>
                     </DialogContent>
                   </Dialog>
