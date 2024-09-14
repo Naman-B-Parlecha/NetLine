@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import cls from "./console.module.css";
 import { formatDate } from "@/app/lib/timeFormatter";
+import { LuLoader2 } from "react-icons/lu";
 
 interface DataItem {
   consoleMessage: string;
@@ -11,7 +12,7 @@ interface DataItem {
   routerID: string;
 }
 
-const Console = ({ logs }: { logs: DataItem[] }) => {
+const Console = ({ logs, loading }: { logs: DataItem[]; loading: boolean }) => {
   const [data, setData] = useState<DataItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const consoleRef = useRef<HTMLDivElement>(null);
@@ -47,22 +48,28 @@ const Console = ({ logs }: { logs: DataItem[] }) => {
   return (
     <aside className="w-1/4 bg-white p-3 border-l-2 border-blue-500/20">
       <h2 className="font-bold mb-4 text-2xl">Console</h2>
-      <div
-        className={`w-full flex flex-col gap-2 max-h-[40rem] overflow-auto ${cls["hidden-scrollbar"]}`}
-        ref={consoleRef}
-      >
-        {logs?.length > 0 &&
-          logs.map((l) => (
-            <div
-              key={l.index}
-              className="bg-blue-500/95 text-white w-full p-2 rounded-md whitespace-pre-line"
-            >
-              {`${formatDate(l.timestamp)} : \n${l.routerID} - ${
-                l.consoleMessage
-              }`}
-            </div>
-          ))}
-      </div>
+      {loading ? (
+        <div className="w-full h-[30rem] flex justify-center items-center">
+          <LuLoader2 className="animate-spin" size={30} />
+        </div>
+      ) : (
+        <div
+          className={`w-full flex flex-col gap-2 max-h-[40rem] overflow-auto ${cls["hidden-scrollbar"]}`}
+          ref={consoleRef}
+        >
+          {logs?.length > 0 &&
+            logs.map((l) => (
+              <div
+                key={l.index}
+                className="bg-blue-500/95 text-white w-full p-2 rounded-md whitespace-pre-line"
+              >
+                {`${formatDate(l.timestamp)} : \n${l.routerID} - ${
+                  l.consoleMessage
+                }`}
+              </div>
+            ))}
+        </div>
+      )}
     </aside>
   );
 };

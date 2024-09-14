@@ -1,9 +1,9 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Console from "./components/Console/Console";
 import Navbar from "./components/NavBar";
 import ButtonGroup from "./components/Network/ButtonGroup";
-import NetworkGraph from "./components/Network/NetworkVisualizer.jsx";
+import NetworkGraph from "./components/Network/NetworkVisualizer";
 import { snmpData } from "./constants/index";
 import { useRouter } from "next/navigation";
 import { getNetwork } from "../serverActions/index";
@@ -25,13 +25,13 @@ export default function Home() {
   };
 
   const handleRefresh = () => {
-    setRefreshKey((prev) => prev + 1);
-    router.refresh();
+    setRefreshKey((prev) => prev + 1); // Increment key to refresh components
   };
 
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,8 +50,7 @@ export default function Home() {
     };
 
     fetchData();
-  }, []);
-  // write the fetch function here and then send it to both the network graph and console if any changes happen then it will work like refresh key
+  }, [refreshKey]); // Dependency on refreshKey to refetch data
 
   return (
     <main className="flex h-screen w-full">
@@ -65,7 +64,7 @@ export default function Home() {
           </div>
         ) : (
           <NetworkGraph
-            key={refreshKey}
+            key={refreshKey} // Refresh NetworkGraph when refreshKey changes
             nodesData={nodes}
             linksData={links}
             selectedNode={selectedNode}
@@ -80,7 +79,11 @@ export default function Home() {
           handleRefresh={handleRefresh}
         />
       </section>
-      <Console logs={snmpData} />
+      <Console
+        loading={loading}
+        key={refreshKey} // Refresh Console when refreshKey changes
+        logs={snmpData}
+      />
     </main>
   );
 }
