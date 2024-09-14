@@ -72,7 +72,6 @@ const accumulateData = (data: any[], filters: FilterOptions) => {
         (sum: number, v: any) => sum + v.out_bytes,
         0
       );
-
       const [src, dst_ip] = key.split("-");
       return {
         source: src,
@@ -267,6 +266,7 @@ export default function RouterDataFlowHeatmap() {
                 value={filters.src_ip}
                 onChange={handleFilterChange}
                 placeholder="e.g., 192.168.100"
+                type="text"
               />
             </div>
             <div className="flex-1 min-w-[200px]">
