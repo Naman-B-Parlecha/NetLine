@@ -84119,7 +84119,7 @@ export const netflow = [
     "id": 4949,
     "timestamp": "2002-03-01T21:28:38.184000",
     "event_type": "INVALID",
-    "action": "Ignore",
+    "action": "Ignore", 
     "protocol": "TCP",
     "src_ip": "192.168.100.1",
     "src_port": 60480,
