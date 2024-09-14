@@ -110,7 +110,7 @@ export default function RouterDataFlowHeatmap() {
       d3.select(svgRef.current).selectAll("*").remove();
 
       const margin = { top: 0, right: 100, bottom: 100, left: 100 };
-      const width = 600 - margin.left - margin.right;
+      const width = 650 - margin.left - margin.right;
       const height = 500 - margin.top - margin.bottom;
 
       const svg = d3
@@ -249,7 +249,7 @@ export default function RouterDataFlowHeatmap() {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col overflow-hidden">
+    <div className="w-full flex flex-col">
       <Card className="flex-grow border-none outline-none">
         <CardHeader className="pb-2">
           <CardTitle className="font-mono text-3xl">

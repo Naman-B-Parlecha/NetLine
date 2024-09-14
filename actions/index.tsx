@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function getNetflowData() {
   try {
-    const netflowData = await axios.get(`${process.env.NEXT_BASE_URL}/netflow`);
+    const netflowData = await axios.get(`http://localhost:8000/netflow`);
     console.log(netflowData.data);
     return netflowData.data;
   } catch (error) {
@@ -13,7 +13,7 @@ export async function getNetflowData() {
 }
 export async function getSysLog() {
   try {
-    const SysLog = await axios.get(`${process.env.NEXT_BASE_URL}/syslog`);
+    const SysLog = await axios.get(`http://localhost:8000/syslog`);
     console.log(SysLog.data);
     return SysLog.data;
   } catch (error) {

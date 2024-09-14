@@ -38,6 +38,7 @@ import { format, parseISO } from "date-fns";
 // Mock log data (replace this with your actual API call)
 import { sysLogData } from "../constants/index";
 import { useRouter } from "next/navigation";
+import { getSysLog } from "@/actions";
 
 const severityColors = {
   "1": "bg-red-900",
@@ -62,9 +63,17 @@ const severityMapping: Record<string, string | null> = {
   DEBUG: "8",
 };
 
+interface logProps {
+  id: number;
+  timestamp1: string;
+  severity: string;
+  ip_address: string;
+  message: string;
+}
+
 export default function Component() {
   const router = useRouter();
-  const [logs, setLogs] = useState(sysLogData);
+  const [logs, setLogs] = useState<logProps[]>([]);
   const [filteredLogs, setFilteredLogs] = useState(logs);
   const [searchTerm, setSearchTerm] = useState("");
   const [severityFilter, setSeverityFilter] = useState("ALL");
@@ -76,8 +85,24 @@ export default function Component() {
   const [logsPerPage, setLogsPerPage] = useState<number>(9);
   const [loading, setLoading] = useState(false); // Add a loading state
 
-  const hosts = Array.from(new Set(logs.map((log) => log.ip_address)));
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true); // Set loading to true when fetching data
+        const data = await getSysLog();
+        console.log(data);
+        setLogs(data);
+      } catch (error) {
+        console.error("Error fetching syslog data:", error);
+        setLogs([]); // Return an empty array in case of error
+      } finally {
+        setLoading(false); // Set loading to false after fetching data
+      }
+    }
+    fetchData();
+  }, []);
 
+  const hosts = Array.from(new Set(logs.map((log) => log.ip_address)));
   useEffect(() => {
     // Apply filters
     let filtered = logs.filter((log) => {
