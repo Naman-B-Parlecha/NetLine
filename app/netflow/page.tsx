@@ -22,10 +22,10 @@ import { CalendarIcon, FilterIcon, ClockIcon } from "lucide-react";
 import { format } from "date-fns";
 import { netflow } from "../constants/netflow";
 import { getNetflowData } from "@/actions/index";
-// Utility function to accumulate the last 25 values per src_ip-dst_ip pair
+import { LuLoader2 } from "react-icons/lu";
 
+// Utility function to accumulate the last 25 values per src_ip-dst_ip pair
 const accumulateData = (data: any[], filters: FilterOptions) => {
-  console.log(data[0].timestamp);
   // Apply filters
   const filteredData = data.filter((d) => {
     const dataDate = new Date(d.timestamp);
@@ -82,8 +82,6 @@ const accumulateData = (data: any[], filters: FilterOptions) => {
     }
   );
 
-  // console.log(aggregatedData);
-
   return aggregatedData;
 };
 
@@ -95,6 +93,26 @@ interface FilterOptions {
 }
 
 export default function RouterDataFlowHeatmap() {
+  const [newNetFlowData, setNewNetFlowData] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const netflowData = await getNetflowData();
+        console.log("Fetched data: ", netflowData); // Check the structure here
+        setNewNetFlowData(netflowData);
+      } catch (error) {
+        console.error("Error fetching netflow data:", error);
+        setNewNetFlowData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const svgRef = useRef<SVGSVGElement>(null);
   const [filters, setFilters] = useState<FilterOptions>({
     timestamp: null,
@@ -104,13 +122,13 @@ export default function RouterDataFlowHeatmap() {
   });
 
   const updateHeatmap = () => {
-    const aggregatedData = accumulateData(netflow, filters);
+    const aggregatedData = accumulateData(newNetFlowData, filters);
 
     if (svgRef.current) {
       d3.select(svgRef.current).selectAll("*").remove();
 
       const margin = { top: 0, right: 100, bottom: 100, left: 100 };
-      const width = 650 - margin.left - margin.right;
+      const width = 600 - margin.left - margin.right;
       const height = 500 - margin.top - margin.bottom;
 
       const svg = d3
@@ -230,7 +248,7 @@ export default function RouterDataFlowHeatmap() {
 
   useEffect(() => {
     updateHeatmap();
-  }, [filters]);
+  }, [newNetFlowData, filters]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -249,7 +267,7 @@ export default function RouterDataFlowHeatmap() {
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full h-screen flex flex-col overflow-hidden">
       <Card className="flex-grow border-none outline-none">
         <CardHeader className="pb-2">
           <CardTitle className="font-mono text-3xl">
@@ -321,13 +339,19 @@ export default function RouterDataFlowHeatmap() {
               Filter
             </Button>
           </div>
-          <div className="flex-grow w-full overflow-auto flex justify-center items-center px-8">
-            <svg
-              ref={svgRef}
-              className="w-fit h-fit"
-              aria-label="Router Data Flow Heatmap"
-            ></svg>
-          </div>
+          {loading ? (
+            <div className="w-full h-[30rem] flex justify-center items-center">
+              <LuLoader2 className="animate-spin" size={30} />
+            </div>
+          ) : (
+            <div className="flex-grow w-full overflow-auto flex justify-center items-center px-8">
+              <svg
+                ref={svgRef}
+                className="w-fit h-fit"
+                aria-label="Router Data Flow Heatmap"
+              ></svg>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
