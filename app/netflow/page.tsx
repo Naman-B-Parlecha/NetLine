@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import {
   Card,
@@ -9,14 +9,40 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon, FilterIcon, ClockIcon } from "lucide-react";
+import { format } from "date-fns";
 import { netflow } from "../constants/netflow";
 
 // Utility function to accumulate the last 25 values per src_ip-dst_ip pair
-const accumulateData = (data: any[]) => {
-  // Consider only the last 50 objects from the data
-  const recentData = data.slice(-100);
-  
+const accumulateData = (data: any[], filters: FilterOptions) => {
+  // Apply filters
+  const filteredData = data.filter((d) => {
+    const dataDate = new Date(d.timestamp);
+    const filterDate = filters.timestamp ? new Date(filters.timestamp) : null;
+
+    const timestampMatch =
+      !filterDate ||
+      (dataDate >= filterDate &&
+        (!filters.time ||
+          (dataDate.getHours() === filters.time.getHours() &&
+            dataDate.getMinutes() === filters.time.getMinutes())));
+    const srcIpMatch = !filters.src_ip || d.src_ip.includes(filters.src_ip);
+    const dstIpMatch = !filters.dst_ip || d.dst_ip.includes(filters.dst_ip);
+    return timestampMatch && srcIpMatch && dstIpMatch;
+  });
+
+  // Consider only the last 100 objects from the filtered data
+  const recentData = filteredData.slice(-100);
+
   const resultMap = new Map();
 
   recentData.forEach((d) => {
@@ -36,30 +62,54 @@ const accumulateData = (data: any[]) => {
   });
 
   // Aggregate in_bytes and out_bytes
-  const aggregatedData = Array.from(resultMap.entries()).map(([key, values]) => {
-    const totalInBytes = values.reduce((sum: number, v: any) => sum + v.in_bytes, 0);
-    const totalOutBytes = values.reduce((sum: number, v: any) => sum + v.out_bytes, 0);
+  const aggregatedData = Array.from(resultMap.entries()).map(
+    ([key, values]) => {
+      const totalInBytes = values.reduce(
+        (sum: number, v: any) => sum + v.in_bytes,
+        0
+      );
+      const totalOutBytes = values.reduce(
+        (sum: number, v: any) => sum + v.out_bytes,
+        0
+      );
 
-    const [src, dst_ip] = key.split("-");
-    return { source: src, target: dst_ip, value: (totalInBytes + totalOutBytes) }; // Total data flow
-  });
-
-  console.log(aggregatedData);
+      const [src, dst_ip] = key.split("-");
+      return {
+        source: src,
+        target: dst_ip,
+        value: totalInBytes + totalOutBytes,
+      }; // Total data flow
+    }
+  );
 
   return aggregatedData;
 };
 
+interface FilterOptions {
+  timestamp: Date | null;
+  time: Date | null;
+  src_ip: string;
+  dst_ip: string;
+}
 
 export default function RouterDataFlowHeatmap() {
   const svgRef = useRef<SVGSVGElement>(null);
+  const [filters, setFilters] = useState<FilterOptions>({
+    timestamp: null,
+    time: null,
+    src_ip: "",
+    dst_ip: "",
+  });
 
-  useEffect(() => {
-    const aggregatedData = accumulateData(netflow);
+  const updateHeatmap = () => {
+    const aggregatedData = accumulateData(netflow, filters);
 
     if (svgRef.current) {
-      const margin = { top: 50, right: 100, bottom: 100, left: 100 };
+      d3.select(svgRef.current).selectAll("*").remove();
+
+      const margin = { top: 0, right: 100, bottom: 100, left: 100 };
       const width = 600 - margin.left - margin.right;
-      const height = 600 - margin.top - margin.bottom;
+      const height = 500 - margin.top - margin.bottom;
 
       const svg = d3
         .select(svgRef.current)
@@ -70,7 +120,11 @@ export default function RouterDataFlowHeatmap() {
 
       // Get unique router names from aggregated data
       const routers = Array.from(
-        new Set(aggregatedData.map((d) => d.source).concat(aggregatedData.map((d) => d.target)))
+        new Set(
+          aggregatedData
+            .map((d) => d.source)
+            .concat(aggregatedData.map((d) => d.target))
+        )
       );
 
       // Build X and Y scales
@@ -78,9 +132,7 @@ export default function RouterDataFlowHeatmap() {
       const y = d3.scaleBand().range([height, 0]).domain(routers).padding(0.01);
 
       // Build color scale
-      const maxDataValue = d3.max(aggregatedData, (d) => d.value) || 1; // Ensure domain is not zero
-      console.log('Max Data Value:', maxDataValue); // Debugging statement
-
+      const maxDataValue = d3.max(aggregatedData, (d) => d.value) || 1;
       const colorScale = d3
         .scaleSequential(d3.interpolateYlOrRd)
         .domain([0, maxDataValue]);
@@ -95,11 +147,7 @@ export default function RouterDataFlowHeatmap() {
         .attr("y", (d) => y(d.target) || 0)
         .attr("width", x.bandwidth())
         .attr("height", y.bandwidth())
-        .style("fill", (d) => {
-          const fillColor = colorScale(d.value);
-          console.log('Fill Color:', fillColor, 'Value:', d.value); // Debugging statement
-          return fillColor;
-        })
+        .style("fill", (d) => colorScale(d.value))
         .attr("rx", 4)
         .attr("ry", 4);
 
@@ -115,21 +163,11 @@ export default function RouterDataFlowHeatmap() {
       // Add Y axis
       svg.append("g").call(d3.axisLeft(y));
 
-      // Add title
-      // svg
-      //   .append("text")
-      //   .attr("x", width / 2)
-      //   .attr("y", -margin.top / 2)
-      //   .attr("text-anchor", "middle")
-      //   .style("font-size", "16px")
-      //   .style("font-weight", "bold")
-      //   .text("Router Data Flow Heatmap");
-
       // Add X axis label
       svg
         .append("text")
         .attr("x", width / 2)
-        .attr("y", height + margin.bottom - 5)
+        .attr("y", height + margin.bottom - 20)
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
         .text("Source Router");
@@ -139,7 +177,7 @@ export default function RouterDataFlowHeatmap() {
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("x", -height / 2)
-        .attr("y", -margin.left + 15)
+        .attr("y", -margin.left + 10)
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
         .text("Destination Router");
@@ -186,23 +224,107 @@ export default function RouterDataFlowHeatmap() {
         .style("font-size", "12px")
         .text("Data Flow");
     }
-  }, []);
+  };
+
+  useEffect(() => {
+    updateHeatmap();
+  }, [filters]);
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({ ...prevFilters, [name]: value as string }));
+  };
+
+  const handleApplyFilters = () => {
+    updateHeatmap();
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [hours, minutes] = e.target.value.split(":").map(Number);
+    const newTime = new Date();
+    newTime.setHours(hours, minutes);
+    setFilters((prevFilters) => ({ ...prevFilters, time: newTime }));
+  };
 
   return (
-    <div className="w-full max-h-screen overflow-hidden ">
-      <Card className="w-full h-screen border-none outline-none">
-        <CardHeader className="w-full">
-          <CardTitle className="font-mono text-3xl">Router Data Flow Heatmap</CardTitle>
+    <div className="w-full h-screen flex flex-col overflow-hidden">
+      <Card className="flex-grow border-none outline-none">
+        <CardHeader className="pb-2">
+          <CardTitle className="font-mono text-3xl">
+            Router Data Flow Heatmap
+          </CardTitle>
           <CardDescription>
             Visualizing data flow intensity between routers
           </CardDescription>
         </CardHeader>
-        <CardContent className="w-full flex justify-center items-center">
-          <svg
-            ref={svgRef}
-            className="w-fit h-fit"
-            aria-label="Router Data Flow Heatmap"
-          ></svg>
+        <CardContent className="flex flex-col items-center h-full">
+          <div className="w-full mb-4 flex flex-wrap items-end gap-4">
+            <div className="flex-1 min-w-[200px]">
+              <Label htmlFor="src_ip">Source IP</Label>
+              <Input
+                id="src_ip"
+                name="src_ip"
+                value={filters.src_ip}
+                onChange={handleFilterChange}
+                placeholder="e.g., 192.168.100"
+              />
+            </div>
+            <div className="flex-1 min-w-[200px]">
+              <Label htmlFor="dst_ip">Destination IP</Label>
+              <Input
+                id="dst_ip"
+                name="dst_ip"
+                value={filters.dst_ip}
+                onChange={handleFilterChange}
+                placeholder="e.g., 74.125.250"
+              />
+            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-[240px] justify-start text-left font-normal"
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {filters.timestamp ? (
+                    format(filters.timestamp, "PPP")
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={filters.timestamp || undefined}
+                  onSelect={(date) =>
+                    setFilters((prev) => ({ ...prev, timestamp: date || null }))
+                  }
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+            <div className="flex items-center space-x-2">
+              <ClockIcon className="h-4 w-4" />
+              <Input
+                type="time"
+                value={filters.time ? format(filters.time, "HH:mm") : ""}
+                onChange={handleTimeChange}
+                className="w-[120px]"
+              />
+            </div>
+            <Button onClick={handleApplyFilters} className="px-8">
+              <FilterIcon className="mr-2 h-4 w-4" />
+              Filter
+            </Button>
+          </div>
+          <div className="flex-grow w-full overflow-auto flex justify-center items-center px-8">
+            <svg
+              ref={svgRef}
+              className="w-fit h-fit"
+              aria-label="Router Data Flow Heatmap"
+            ></svg>
+          </div>
         </CardContent>
       </Card>
     </div>
