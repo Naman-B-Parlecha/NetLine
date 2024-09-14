@@ -38,7 +38,7 @@ import { format, parseISO } from "date-fns";
 // Mock log data (replace this with your actual API call)
 import { sysLogData } from "../constants/index";
 import { useRouter } from "next/navigation";
-import { getSysLog } from "@/actions";
+import { getSysLog } from "@/serverActions";
 
 const severityColors = {
   "1": "bg-red-900",

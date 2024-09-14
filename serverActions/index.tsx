@@ -8,7 +8,7 @@ export async function getNetflowData() {
     return netflowData.data;
   } catch (error) {
     console.error("Error fetching netflow data:", error);
-    return []; // Return an empty array in case of error
+    return [];
   }
 }
 export async function getSysLog() {
@@ -18,26 +18,19 @@ export async function getSysLog() {
     return SysLog.data;
   } catch (error) {
     console.error("Error fetching syslog data:", error);
-    return []; // Return an empty array in case of error
+    return [];
   }
 }
-export async function getNodes() {
+export async function getNetwork() {
   try {
-    const nodes = await axios.get(`${process.env.NEXT_BASE_URL}/nodes`);
+    const nodes = await axios.get(`http://localhost:8000/network`);
     console.log(nodes.data);
     return nodes.data;
   } catch (error) {
     console.error("Error fetching nodes data:", error);
-    return []; // Return an empty array in case of error
-  }
-}
-export async function getConnections() {
-  try {
-    const connections = await axios.get(`${process.env.NEXT_BASE_URL}/connections`);
-    console.log(connections.data);
-    return connections.data;
-  } catch (error) {
-    console.error("Error fetching connections data:", error);
-    return []; // Return an empty array in case of error
+    return {
+      nodes: [],
+      connections: [],
+    };
   }
 }

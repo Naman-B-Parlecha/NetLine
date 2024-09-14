@@ -21,7 +21,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon, FilterIcon, ClockIcon } from "lucide-react";
 import { format } from "date-fns";
 import { netflow } from "../constants/netflow";
-import { getNetflowData } from "@/actions/index";
+import { getNetflowData } from "@/serverActions/index";
 import { LuLoader2 } from "react-icons/lu";
 
 // Utility function to accumulate the last 25 values per src_ip-dst_ip pair

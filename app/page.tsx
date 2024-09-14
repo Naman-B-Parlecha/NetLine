@@ -1,11 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Console from "./components/Console/Console";
 import Navbar from "./components/NavBar";
 import ButtonGroup from "./components/Network/ButtonGroup";
 import NetworkGraph from "./components/Network/NetworkVisualizer.jsx";
-import { nodes, nodelinks, logs, snmpData } from "./constants/index";
+import { snmpData } from "./constants/index";
 import { useRouter } from "next/navigation";
+import { getNetwork } from "../serverActions/index";
+import { LuLoader2 } from "react-icons/lu";
 
 export default function Home() {
   const router = useRouter();
@@ -27,6 +29,28 @@ export default function Home() {
     router.refresh();
   };
 
+  const [nodes, setNodes] = useState([]);
+  const [links, setLinks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await getNetwork();
+        console.log(response);
+        setNodes(response.nodes);
+        setLinks(response.connections);
+      } catch (err) {
+        console.log("Error fetching data:", err);
+        setNodes([]);
+        setLinks([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
   // write the fetch function here and then send it to both the network graph and console if any changes happen then it will work like refresh key
 
   return (
@@ -35,14 +59,20 @@ export default function Home() {
         <h1 className="text-3xl font-bold font-mono pb-4">
           Current Network State
         </h1>
-        <NetworkGraph
-          key={refreshKey}
-          nodesData={nodes}
-          linksData={nodelinks}
-          selectedNode={selectedNode}
-          setSelectedNode={setSelectedNode}
-          showAdjacency={showAdjacency}
-        />
+        {loading ? (
+          <div className="w-full h-[30rem] flex justify-center items-center">
+            <LuLoader2 className="animate-spin" size={30} />
+          </div>
+        ) : (
+          <NetworkGraph
+            key={refreshKey}
+            nodesData={nodes}
+            linksData={links}
+            selectedNode={selectedNode}
+            setSelectedNode={setSelectedNode}
+            showAdjacency={showAdjacency}
+          />
+        )}
         <ButtonGroup
           onAdjacencyCheck={handleAdjacencyCheck}
           onResetAdjacenyCheck={resetAdjacencyCheck}

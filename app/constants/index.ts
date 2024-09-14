@@ -97,7 +97,7 @@ for (let i = 0; i < connections_pre.length; i++) {
     const source = nodes.find(node => node.interfaces.find(ifc => ifc.ip === connection.source)) || { id: "" };
     const target = nodes.find(node => node.interfaces.find(ifc => ifc.ip === connection.target)) || { id: "" };
     links.push({ source: source.id, target: target.id });
-}
+}   
 
 export const nodelinks = links;
 
