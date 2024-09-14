@@ -21,14 +21,15 @@ import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon, FilterIcon, ClockIcon } from "lucide-react";
 import { format } from "date-fns";
 import { netflow } from "../constants/netflow";
-
+import { getNetflowData } from "@/actions/index";
 // Utility function to accumulate the last 25 values per src_ip-dst_ip pair
+
 const accumulateData = (data: any[], filters: FilterOptions) => {
+  console.log(data[0].timestamp);
   // Apply filters
   const filteredData = data.filter((d) => {
     const dataDate = new Date(d.timestamp);
     const filterDate = filters.timestamp ? new Date(filters.timestamp) : null;
-
     const timestampMatch =
       !filterDate ||
       (dataDate >= filterDate &&
@@ -80,6 +81,8 @@ const accumulateData = (data: any[], filters: FilterOptions) => {
       }; // Total data flow
     }
   );
+
+  // console.log(aggregatedData);
 
   return aggregatedData;
 };

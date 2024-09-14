@@ -4,7 +4,7 @@ import Console from "./components/Console/Console";
 import Navbar from "./components/NavBar";
 import ButtonGroup from "./components/Network/ButtonGroup";
 import NetworkGraph from "./components/Network/NetworkVisualizer.jsx";
-import { nodes, links, logs } from "./constants/index";
+import { nodes, nodelinks, logs, snmpData } from "./constants/index";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -38,7 +38,7 @@ export default function Home() {
         <NetworkGraph
           key={refreshKey}
           nodesData={nodes}
-          linksData={links}
+          linksData={nodelinks}
           selectedNode={selectedNode}
           setSelectedNode={setSelectedNode}
           showAdjacency={showAdjacency}
@@ -50,7 +50,7 @@ export default function Home() {
           handleRefresh={handleRefresh}
         />
       </section>
-      <Console logs={logs} />
+      <Console logs={snmpData} />
     </main>
   );
 }

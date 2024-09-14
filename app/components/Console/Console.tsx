@@ -5,9 +5,10 @@ import cls from "./console.module.css";
 import { formatDate } from "@/app/lib/timeFormatter";
 
 interface DataItem {
-  event: string;
-  time: string;
-  key: number;
+  consoleMessage: string;
+  timestamp: string;
+  index: number;
+  routerID: string;
 }
 
 const Console = ({ logs }: { logs: DataItem[] }) => {
@@ -53,10 +54,12 @@ const Console = ({ logs }: { logs: DataItem[] }) => {
         {logs?.length > 0 &&
           logs.map((l) => (
             <div
-              key={l.key}
+              key={l.index}
               className="bg-blue-500/95 text-white w-full p-2 rounded-md whitespace-pre-line"
             >
-              {`${formatDate(l.time)} : \n${l.event}`}
+              {`${formatDate(l.timestamp)} : \n${l.routerID} - ${
+                l.consoleMessage
+              }`}
             </div>
           ))}
       </div>

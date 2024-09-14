@@ -99,7 +99,8 @@ for (let i = 0; i < connections_pre.length; i++) {
     links.push({ source: source.id, target: target.id });
 }
 
-export { links };
+export const nodelinks = links;
+
 
 // export const links = [
 //     // Core Routers Connections
@@ -206,6 +207,60 @@ export const logs = [
         key: 10
     }
 ];
+
+export const snmpData = [
+    {
+        index: 1,
+        timestamp: '2024-09-15T08:45:00Z',
+        routerID: 'Router1',
+        consoleMessage: 'SNMP trap: Interface FastEthernet0/1 link status changed to DOWN'
+    },
+    {
+        index: 2,
+        timestamp: '2024-09-15T08:50:00Z',
+        routerID: 'Router1',
+        consoleMessage: 'SNMP trap: Interface FastEthernet0/1 link status changed to UP'
+    },
+    {
+        index: 3,
+        timestamp: '2024-09-15T09:00:00Z',
+        routerID: 'Router2',
+        consoleMessage: 'SNMP trap: High collision rate detected on FastEthernet0/2'
+    },
+    {
+        index: 4,
+        timestamp: '2024-09-15T09:10:00Z',
+        routerID: 'Router2',
+        consoleMessage: 'SNMP trap: Interface FastEthernet0/2 link status changed to DOWN'
+    },
+    {
+        index: 5,
+        timestamp: '2024-09-15T09:15:00Z',
+        routerID: 'Router1',
+        consoleMessage: 'SNMP trap: CPU usage exceeded 90% on Router1'
+    },
+    {
+        index: 6,
+        timestamp: '2024-09-15T09:20:00Z',
+        routerID: 'Router2',
+        consoleMessage: 'SNMP trap: Interface FastEthernet0/3 link status changed to UP'
+    },
+    {
+        index: 7,
+        timestamp: '2024-09-15T09:25:00Z',
+        routerID: 'Router1',
+        consoleMessage: 'SNMP trap: Spanning Tree Protocol (STP) topology change detected on FastEthernet0/1'
+    },
+    {
+        index: 8,
+        timestamp: '2024-09-15T09:30:00Z',
+        routerID: 'Router2',
+        consoleMessage: 'SNMP trap: Interface FastEthernet0/2 has recovered and link is UP'
+    }
+];
+
+
+
 
 export const mockLogs = [
     {
