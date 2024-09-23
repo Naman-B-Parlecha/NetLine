@@ -23,6 +23,7 @@ import { format } from "date-fns";
 import { netflow } from "../constants/netflow";
 import { getNetflowData } from "@/serverActions/index";
 import { LuLoader2 } from "react-icons/lu";
+import NetflowModal from "@/components/ui/netflowModal";
 
 // Utility function to accumulate the last 25 values per src_ip-dst_ip pair
 const accumulateData = (data: any[], filters: FilterOptions) => {
@@ -42,7 +43,7 @@ const accumulateData = (data: any[], filters: FilterOptions) => {
   });
 
   // Consider only the last 100 objects from the filtered data
-  const recentData = filteredData.slice(-100);
+  const recentData = filteredData.slice(-50);
 
   const resultMap = new Map();
 
@@ -93,8 +94,16 @@ interface FilterOptions {
 }
 
 export default function RouterDataFlowHeatmap() {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedIPs, setSelectedIPs] = useState({ srcIP: "", destIP: "" });
   const [newNetFlowData, setNewNetFlowData] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedIPs({ srcIP: "", destIP: "" });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -122,9 +131,14 @@ export default function RouterDataFlowHeatmap() {
   });
 
   const updateHeatmap = () => {
+    // Assuming accumulateData is a function that aggregates the data
     const aggregatedData = accumulateData(newNetFlowData, filters);
 
+    // Create a copy of the data and filter out zero values for rendering
+    const dataToRender = aggregatedData.filter((d) => d.value > 0);
+
     if (svgRef.current) {
+      // Clear the SVG before drawing
       d3.select(svgRef.current).selectAll("*").remove();
 
       const margin = { top: 0, right: 100, bottom: 100, left: 100 };
@@ -138,12 +152,12 @@ export default function RouterDataFlowHeatmap() {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      // Get unique router names from aggregated data
+      // Get unique router names from the data to render
       const routers = Array.from(
         new Set(
-          aggregatedData
+          dataToRender
             .map((d) => d.source)
-            .concat(aggregatedData.map((d) => d.target))
+            .concat(dataToRender.map((d) => d.target))
         )
       );
 
@@ -152,7 +166,7 @@ export default function RouterDataFlowHeatmap() {
       const y = d3.scaleBand().range([height, 0]).domain(routers).padding(0.01);
 
       // Build color scale
-      const maxDataValue = d3.max(aggregatedData, (d) => d.value) || 1;
+      const maxDataValue = d3.max(dataToRender, (d) => d.value) || 1;
       const colorScale = d3
         .scaleSequential(d3.interpolateYlOrRd)
         .domain([0, maxDataValue]);
@@ -160,7 +174,7 @@ export default function RouterDataFlowHeatmap() {
       // Create the heatmap cells
       svg
         .selectAll()
-        .data(aggregatedData)
+        .data(dataToRender)
         .enter()
         .append("rect")
         .attr("x", (d) => x(d.source) || 0)
@@ -169,7 +183,19 @@ export default function RouterDataFlowHeatmap() {
         .attr("height", y.bandwidth())
         .style("fill", (d) => colorScale(d.value))
         .attr("rx", 4)
-        .attr("ry", 4);
+        .attr("ry", 4)
+        .on("click", function (event, d) {
+          // // Here you can define what happens when the rectangle is clicked
+          // console.log(
+          //   `Clicked on source: ${d.source}, target: ${d.target}, value: ${d.value}`
+          // );
+          // // Example: You can display an alert or trigger any action
+          // alert(`Data flow between ${d.source} and ${d.target} = ${d.value}`);
+          // // Or redirect to another page:
+          // // window.location.href = `/details?source=${d.source}&target=${d.target}`;
+          setSelectedIPs({ srcIP: d.source, destIP: d.target });
+          setIsModalOpen(true);
+        });
 
       // Add X axis
       svg
@@ -268,6 +294,12 @@ export default function RouterDataFlowHeatmap() {
 
   return (
     <div className="w-full h-screen flex flex-col overflow-hidden">
+      <NetflowModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        srcIP={selectedIPs.srcIP}
+        destIP={selectedIPs.destIP}
+      />
       <Card className="flex-grow border-none outline-none">
         <CardHeader className="pb-2">
           <CardTitle className="font-mono text-3xl">

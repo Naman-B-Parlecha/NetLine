@@ -363,7 +363,7 @@ export default function Component() {
           Previous
         </Button>
         <span>
-          Page {currentPage} of {Math.ceil(filteredLogs.length / logsPerPage)}
+          Page {loading ? 0 : currentPage} of {Math.ceil(filteredLogs.length / logsPerPage)}
         </span>
         <Button
           variant="outline"
