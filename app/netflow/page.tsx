@@ -96,7 +96,7 @@ interface FilterOptions {
 export default function RouterDataFlowHeatmap() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedIPs, setSelectedIPs] = useState({ srcIP: "", destIP: "" });
-  const [newNetFlowData, setNewNetFlowData] = useState([]);
+  const [newNetFlowData, setNewNetFlowData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleCloseModal = () => {
@@ -110,7 +110,7 @@ export default function RouterDataFlowHeatmap() {
         setLoading(true);
         const netflowData = await getNetflowData();
         console.log("Fetched data: ", netflowData); // Check the structure here
-        setNewNetFlowData(netflowData);
+        setNewNetFlowData(netflow);
       } catch (error) {
         console.error("Error fetching netflow data:", error);
         setNewNetFlowData([]);

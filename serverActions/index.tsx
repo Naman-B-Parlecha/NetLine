@@ -4,7 +4,7 @@ import axios from "axios";
 export async function getNetflowData() {
   try {
     const netflowData = await axios.get(`http://localhost:8000/netflow`);
-    console.log(netflowData.data);
+    // console.log(netflowData.data);
     return netflowData.data;
   } catch (error) {
     console.error("Error fetching netflow data:", error);
@@ -32,5 +32,22 @@ export async function getNetwork() {
       nodes: [],
       connections: [],
     };
+  }
+}
+export async function getNetFlowById(id: string) {
+  try {
+    const netflowData = await axios.get(`http://localhost:8000/netflow/${id}`);
+    console.log(netflowData.data);
+    const filterdata =
+      netflowData.data.length > 25 ? netflowData.data.slice(-50) : [];
+      const formattedData = filterdata.map((item: any) => ({
+        ...item,
+        timestamp: new Date(item.timestamp).toLocaleString(),
+      }));
+      console.log("length ==== ", formattedData.length)
+    return formattedData;
+  } catch (error) {
+    console.error("Error fetching netflow data:", error);
+    return [];
   }
 }

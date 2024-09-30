@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,22 +18,9 @@ import {
   Legend,
 } from "recharts";
 import cls from "./netflowmodal.module.css";
-
-const data = [
-  { name: "09:00", packets: 1, errors: 3 },
-  { name: "09:30", packets: 2, errors: 4 },
-  { name: "09:55", packets: 3, errors: 2 },
-  { name: "10:30", packets: 4, errors: 4 },
-  { name: "11:00", packets: 5, errors: 1 },
-  { name: "11:30", packets: 2, errors: 0 },
-  { name: "12:00", packets: 7, errors: 2 },
-  { name: "12:30", packets: 5, errors: 3 },
-  { name: "1:00 pm", packets: 3, errors: 6 },
-  { name: "1:30 pm", packets: 4, errors: 2 },
-  { name: "2:00 pm", packets: 6, errors: 4 },
-  { name: "2:30 pm", packets: 2, errors: 6 },
-  { name: "3:00 pm", packets: 1, errors: 1 },
-];
+import axios from "axios";
+import { getNetFlowById } from "@/serverActions";
+import { netflow } from "@/app/constants/netflow";
 
 interface ModalProps {
   isOpen: boolean;
@@ -47,6 +35,19 @@ const NetflowModal: React.FC<ModalProps> = ({
   srcIP,
   destIP,
 }) => {
+  const [option, setOption] = useState("src");
+  const [data, setData] = useState<any>([]);
+  useEffect(() => {
+    const fetchfnc = async () => {
+      const response = await getNetFlowById(option === "src" ? srcIP : destIP);
+      const filterData = netflow.filter((e) =>
+        option === "src" ? srcIP === e.src_ip : destIP === e.dst_ip
+      );
+      setData(filterData);
+    };
+
+    fetchfnc();
+  }, [srcIP, option]);
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-white p-6 rounded-lg shadow-lg max-w-3xl mx-auto">
@@ -61,14 +62,26 @@ const NetflowModal: React.FC<ModalProps> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="bg-gray-100 p-4 rounded-md">
-          <p className="text-gray-700">
-            <span className="font-medium text-black">Source IP:</span> {srcIP}
-          </p>
-          <p className="text-gray-700 mt-2">
-            <span className="font-medium text-black">Destination IP:</span>{" "}
-            {destIP}
-          </p>
+        <div className="bg-gray-100 p-4 rounded-md flex flex-col item-center w-full">
+          <div className="flex gap-4 w-full mb-4 justify-center">
+            <p className="text-gray-700 ">
+              <span className="font-medium text-black">Source IP:</span> {srcIP}
+            </p>
+            <p className="text-gray-700">
+              <span className="font-medium text-black">Destination IP:</span>{" "}
+              {destIP}
+            </p>
+          </div>
+          <div className="flex items-center justify-center w-full">
+            <button
+              className="bg-black px-4 py-2 text-sm font-medium text-white font-mono rounded-md w-fit"
+              onClick={() => {
+                setOption((prev) => (prev === "src" ? "dest" : "src"));
+              }}
+            >
+              check stats of {option === "src" ? "source" : "destination"}
+            </button>
+          </div>
         </div>
 
         {/* Line chart for packets and errors */}
@@ -76,14 +89,19 @@ const NetflowModal: React.FC<ModalProps> = ({
           <ResponsiveContainer width="100%" height={350}>
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-              <XAxis 
-                dataKey="name" 
-                tick={{ fill: "#555" }} 
-                label={{ value: 'Time', position: 'bottom', offset: -5 }} // Adding margin to X-axis label
+              <XAxis
+                dataKey="timestamp"
+                tick={{ fill: "#555" }}
+                label={{ value: "Time", position: "bottom", offset: -5 }} // Adding margin to X-axis label
               />
-              <YAxis 
-                tick={{ fill: "#555" }} 
-                label={{ value: 'Count', angle: -90, position: 'insideLeft', offset: 10 }} // Adding margin to Y-axis label
+              <YAxis
+                tick={{ fill: "#555" }}
+                label={{
+                  value: "Count",
+                  angle: -90,
+                  position: "insideLeft",
+                  offset: 10,
+                }} // Adding margin to Y-axis label
               />
               <Tooltip
                 contentStyle={{
@@ -99,7 +117,7 @@ const NetflowModal: React.FC<ModalProps> = ({
               />
               <Line
                 type="monotone"
-                dataKey="packets"
+                dataKey="in_bytes"
                 stroke="#4bff91"
                 strokeWidth={2}
                 dot={false}
@@ -108,7 +126,7 @@ const NetflowModal: React.FC<ModalProps> = ({
               />
               <Line
                 type="monotone"
-                dataKey="errors"
+                dataKey="out_bytes"
                 stroke="#ff4d4d"
                 strokeWidth={2}
                 dot={false}
