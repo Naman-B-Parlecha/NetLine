@@ -2,6 +2,15 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import { useRouter } from "next/navigation";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Typography } from "@mui/material";
+import { X } from "lucide-react";
 
 const NetworkGraph = ({
   nodesData,
@@ -10,13 +19,32 @@ const NetworkGraph = ({
   setSelectedNode,
   showAdjacency,
 }) => {
+  const router = useRouter();
   const svgRef = useRef();
+  const [open, setOpen] = useState(false);
+  const [selectedDevice, setSelectedDevice] = useState(null);
   const [tooltip, setTooltip] = useState({
     show: false,
     x: 0,
     y: 0,
     content: {},
   });
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleRedirect = (id) => {
+    return router.push(`/network/${id}`);
+  };
+
+  const handleShutdown = (id) => {
+    console.log("shuting down the system", selectedDevice?.id);
+  };
 
   useEffect(() => {
     const width = 885;
@@ -26,22 +54,23 @@ const NetworkGraph = ({
     console.log("Nodes Data:", nodesData);
     console.log("Links Data:", linksData);
 
-    const svg = d3.select(svgRef.current)
+    const svg = d3
+      .select(svgRef.current)
       .attr("width", width)
       .attr("height", height);
-      
+
     svg.selectAll("*").remove();
 
     // Create a map for IP to Node ID
     const ipToNodeId = {};
-    nodesData.forEach(node => {
-      node.interfaces.forEach(iface => {
+    nodesData.forEach((node) => {
+      node.interfaces.forEach((iface) => {
         ipToNodeId[iface.ip] = node.id;
       });
     });
 
     // Format linksData to use Node IDs
-    const formattedLinks = linksData.map(link => ({
+    const formattedLinks = linksData.map((link) => ({
       source: ipToNodeId[link.source],
       target: ipToNodeId[link.target],
     }));
@@ -49,29 +78,39 @@ const NetworkGraph = ({
     // Verify the formatted links
     console.log("Formatted Links Data:", formattedLinks);
 
-    const simulation = d3.forceSimulation(nodesData)
-      .force("link", d3.forceLink(formattedLinks).id(d => d.id))
+    const simulation = d3
+      .forceSimulation(nodesData)
+      .force(
+        "link",
+        d3.forceLink(formattedLinks).id((d) => d.id)
+      )
       .force("charge", d3.forceManyBody().strength(-3000))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide().radius(20));
 
-    const link = svg.append("g")
+    const link = svg
+      .append("g")
       .selectAll("line")
       .data(formattedLinks)
       .join("line")
       .attr("stroke-width", 2)
       .attr("stroke", "#aaa");
 
-    const node = svg.append("g")
+    const node = svg
+      .append("g")
       .selectAll("image")
       .data(nodesData)
       .join("image")
       .attr("href", (d) => {
         switch (d.type) {
-          case "router": return "/router.png";
-          case "pc": return "/pc.png";
-          case "server": return "/server.png";
-          default: return "";
+          case "router":
+            return "/router.png";
+          case "pc":
+            return "/pc.png";
+          case "server":
+            return "/server.png";
+          default:
+            return "";
         }
       })
       .attr("width", 60)
@@ -81,8 +120,18 @@ const NetworkGraph = ({
       .style("cursor", "pointer")
       .call(drag(simulation))
       .on("click", (event, d) => {
+        console.log(d.id);
         if (showAdjacency) {
           setSelectedNode(d.id);
+        } else {
+          setSelectedDevice({
+            id: d.id,
+            name: d.name,
+            type: d.type,
+            interfaces: d.interfaces,
+          });
+          handleClickOpen();
+          // return router.push(`/network/${d.id}`)
         }
       })
       .on("mouseover", (event, d) => {
@@ -105,31 +154,29 @@ const NetworkGraph = ({
 
     simulation.on("tick", () => {
       link
-        .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y);
+        .attr("x1", (d) => d.source.x)
+        .attr("y1", (d) => d.source.y)
+        .attr("x2", (d) => d.target.x)
+        .attr("y2", (d) => d.target.y);
 
-      node
-        .attr("x", d => d.x - 30)
-        .attr("y", d => d.y - 30);
+      node.attr("x", (d) => d.x - 30).attr("y", (d) => d.y - 30);
     });
 
     if (showAdjacency && selectedNode !== null) {
       link
-        .attr("stroke", d =>
+        .attr("stroke", (d) =>
           d.source.id === selectedNode || d.target.id === selectedNode
             ? "red"
             : "#aaa"
         )
-        .attr("stroke-width", d =>
+        .attr("stroke-width", (d) =>
           d.source.id === selectedNode || d.target.id === selectedNode ? 2 : 1
         );
 
-      node.attr("opacity", d =>
+      node.attr("opacity", (d) =>
         d.id === selectedNode ||
         linksData.some(
-          link =>
+          (link) =>
             (link.source === selectedNode && link.target === d.id) ||
             (link.target === selectedNode && link.source === d.id)
         )
@@ -144,7 +191,8 @@ const NetworkGraph = ({
   }, [nodesData, linksData, selectedNode, showAdjacency]);
 
   const drag = (simulation) => {
-    return d3.drag()
+    return d3
+      .drag()
       .on("start", (event, d) => {
         if (!event.active) simulation.alphaTarget(0.3).restart();
         d.fx = d.x;
@@ -184,6 +232,57 @@ const NetworkGraph = ({
           </div>
         </div>
       )}
+      <React.Fragment>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+
+          <DialogActions>
+            <button className="p-0 m-0 border-none outline-none" onClick={handleClose}><X className="p-0 m-0"/></button>
+          </DialogActions>
+          <DialogTitle id="alert-dialog-title">
+            {"Your Devices Details"}
+          </DialogTitle>
+          <DialogContent className="w-[30rem]">
+            <DialogContentText id="alert-dialog-description">
+              <Typography>ID: {selectedDevice?.id}</Typography>
+              <Typography>Name: {selectedDevice?.name}</Typography>
+              <Typography>Type: {selectedDevice?.type}</Typography>
+              <div>
+                Interfaces:
+                {selectedDevice?.interfaces &&
+                  selectedDevice?.interfaces.length > 0 &&
+                  selectedDevice?.interfaces.map((ifs, index) => (
+                    <Typography key={index} className="pl-4">
+                      {ifs.name} : {ifs.ip}
+                    </Typography>
+                  ))}
+              </div>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions className="pb-4">
+            <Button
+              size="small"
+              onClick={() => {
+                handleRedirect(selectedDevice?.id);
+              }}
+            >
+              Check Performance
+            </Button>
+            <Button
+              size="small"
+              onClick={handleShutdown}
+              variant="contained"
+              className="bg-red-500"
+            >
+              Shutdown device
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </React.Fragment>
     </div>
   );
 };
