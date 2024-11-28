@@ -1,12 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Console from "./components/Console/Console";
-import Navbar from "./components/NavBar";
-import ButtonGroup from "./components/Network/ButtonGroup";
-import NetworkGraph from "./components/Network/NetworkVisualizer";
-import { snmpData } from "./constants/index";
+import Console from "../components/Console/Console";
+import ButtonGroup from "../components/Network/ButtonGroup";
+import NetworkGraph from "../components/Network/NetworkVisualizer";
+import { snmpData } from "../constants/index";
 import { useRouter } from "next/navigation";
-import { getNetwork } from "../serverActions/index";
+import { getNetwork } from "@/serverActions";
 import { LuLoader2 } from "react-icons/lu";
 
 export default function Home() {

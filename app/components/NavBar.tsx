@@ -14,7 +14,7 @@ const routes: {
   {
     id: 1,
     routeName: "Network",
-    path: "/",
+    path: "/network",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +110,7 @@ const Navbar = () => {
             <Link
               href={route.path}
               className={`flex items-center p-4 text-gray-900 rounded-lg  group w-full ${
-                pathName === route.path
+                pathName.includes(route.path)
                   ? "bg-blue-500 text-white hover:bg-blue-500/100"
                   : "hover:bg-blue-500/15"
               }`}
