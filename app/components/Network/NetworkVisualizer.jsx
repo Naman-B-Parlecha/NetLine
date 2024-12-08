@@ -61,6 +61,13 @@ const NetworkGraph = ({
 
     svg.selectAll("*").remove();
 
+    // svg
+    // .append("image")
+    // .attr("xlink:href", "/dotback.jpg")
+    // .attr("x", 0)
+    // .attr("y", 0)
+    // .attr("width", width)
+    // .attr("height", height);
     // Create a map for IP to Node ID
     const ipToNodeId = {};
     nodesData.forEach((node) => {
@@ -106,17 +113,17 @@ const NetworkGraph = ({
           case "router":
             return "/router.png";
           case "pc":
-            return "/pc.png";
+            return "/backDot.png";
           case "server":
             return "/server.png";
           default:
             return "";
         }
       })
-      .attr("width", 60)
-      .attr("height", 60)
-      .attr("x", (d) => d.x - 30)
-      .attr("y", (d) => d.y - 30)
+      .attr("width", 40)
+      .attr("height", 40)
+      .attr("x", (d) => d.x - 40)
+      .attr("y", (d) => d.y - 40)
       .style("cursor", "pointer")
       .call(drag(simulation))
       .on("click", (event, d) => {
@@ -152,6 +159,19 @@ const NetworkGraph = ({
         setTooltip((prev) => ({ ...prev, show: false }));
       });
 
+    const labels = svg
+      .append("g")
+      .selectAll("text")
+      .data(nodesData)
+      .join("text")
+      .text((d) => d.name)
+      .attr("text-anchor", "middle")
+      .attr("font-size", "10px")
+      .attr("fill", "#333")
+      .attr("x", (d) => d.x)
+      .attr("y", (d) => d.y + 40)
+      .style("font-weight", "700"); // Position below the node
+
     simulation.on("tick", () => {
       link
         .attr("x1", (d) => d.source.x)
@@ -160,6 +180,8 @@ const NetworkGraph = ({
         .attr("y2", (d) => d.target.y);
 
       node.attr("x", (d) => d.x - 30).attr("y", (d) => d.y - 30);
+
+      labels.attr("x", (d) => d.x).attr("y", (d) => d.y + 30); // Keep labels updated
     });
 
     if (showAdjacency && selectedNode !== null) {
@@ -210,7 +232,14 @@ const NetworkGraph = ({
   };
 
   return (
-    <div className="relative border-blue-500/20 border-2 rounded-xl bg-white">
+    <div
+      className="relative border-blue-500/20 border-2 rounded-xl bg-white"
+      style={{
+        backgroundImage: "url('/dotimage.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <svg ref={svgRef}></svg>
       {tooltip.show && (
         <div
@@ -239,9 +268,13 @@ const NetworkGraph = ({
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-
           <DialogActions>
-            <button className="p-0 m-0 border-none outline-none" onClick={handleClose}><X className="p-0 m-0"/></button>
+            <button
+              className="p-0 m-0 border-none outline-none"
+              onClick={handleClose}
+            >
+              <X className="p-0 m-0" />
+            </button>
           </DialogActions>
           <DialogTitle id="alert-dialog-title">
             {"Your Devices Details"}
