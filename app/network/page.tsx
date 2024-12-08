@@ -40,8 +40,8 @@ export default function Home() {
     setRefreshKey((prev) => prev + 1);
   };
 
-  // will add this in airport 
-  
+  // will add this in airport
+
   // useEffect(() => {
   //   const fetchVersions = async () => {
   //     try {
@@ -67,7 +67,7 @@ export default function Home() {
 
         // will add this in airport
         // const response = await getNetwork(selectedVersion);
-        
+
         const response = await getNetwork();
         setNodes(response.nodes);
         setLinks(response.connections);
@@ -86,10 +86,10 @@ export default function Home() {
   return (
     <main className="flex h-screen w-full">
       <section className="w-3/4 bg-gray-300/20 p-4">
-        {/* <h1 className="text-3xl font-bold font-mono pb-4">
-          Current Network State
-        </h1> */}
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-between align-baseline">
+          <h1 className="text-3xl font-bold font-mono pb-4">
+            Current Network State
+          </h1>
           <VersionSelector
             versions={versions}
             selectedVersion={selectedVersion}
