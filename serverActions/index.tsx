@@ -11,6 +11,7 @@ export async function getNetflowData() {
     return [];
   }
 }
+
 export async function getSysLog() {
   try {
     const SysLog = await axios.get(`http://localhost:8000/syslog`);
@@ -21,6 +22,10 @@ export async function getSysLog() {
     return [];
   }
 }
+
+// integrate tmr in airport
+// export async function getNetwork(selectedVersion: string) {
+
 export async function getNetwork() {
   try {
     const nodes = await axios.get(`http://localhost:8000/network`);
@@ -34,17 +39,18 @@ export async function getNetwork() {
     };
   }
 }
+
 export async function getNetFlowById(id: string) {
   try {
     const netflowData = await axios.get(`http://localhost:8000/netflow/${id}`);
     console.log(netflowData.data);
     const filterdata =
       netflowData.data.length > 25 ? netflowData.data.slice(-50) : [];
-      const formattedData = filterdata.map((item: any) => ({
-        ...item,
-        timestamp: new Date(item.timestamp).toLocaleString(),
-      }));
-      console.log("length ==== ", formattedData.length)
+    const formattedData = filterdata.map((item: any) => ({
+      ...item,
+      timestamp: new Date(item.timestamp).toLocaleString(),
+    }));
+    console.log("length ==== ", formattedData.length);
     return formattedData;
   } catch (error) {
     console.error("Error fetching netflow data:", error);
