@@ -28,16 +28,12 @@ const VersionSelector = ({
 }: VersionSelectorProps) => {
   console.log("here -> ", versions);
 
-  return isloading ? (
-    <div className="flex justify-center items-center">
-      <LuLoader2 className="animate-spin" size={25} />
-    </div>
-  ) : (
+  return (
     <div className="mb-4">
       <Select value={selectedVersion || ""} onValueChange={onVersionChange}>
         <SelectTrigger className="w-[300px]">
           <SelectValue placeholder="Select a version" />
-        </SelectTrigger>
+        </SelectTrigger>  
         <SelectContent>
           {versions.map((version) => (
             <SelectItem key={version.id} value={version.id}>

@@ -57,46 +57,81 @@ export default function Home() {
   //   fetchVersions();
   // }, []);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const response = await getNetwork();
+  //       // const response = await getNetwork(selectedVersion);
+  //       setNodes(response.nodes);
+  //       setLinks(response.connections);
+  //     } catch (err) {
+  //       console.log("Error fetching data:", err);
+  //       setNodes([]);
+  //       setLinks([]);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [refreshKey, selectedVersion]);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await getNetwork();
-        // const response = await getNetwork(selectedVersion);
-        setNodes(response.nodes);
-        setLinks(response.connections);
-      } catch (err) {
-        console.log("Error fetching data:", err);
-        setNodes([]);
-        setLinks([]);
-      } finally {
-        setLoading(false);
-      }
+    setLoading(true);
+    const fetchNetork = () => {
+      getVersions()
+        .then((response) => {
+          setVersions(response);
+          if (response.length > 0) {
+            setSelectedVersion(response[0].id);
+          }
+        })
+        .catch((err) => {
+          console.log("Error fetching version:", err);
+          setVersions([]);
+        })
+        .then(() => {
+          getNetwork()
+            .then((response) => {
+              setNodes(response.nodes);
+              setLinks(response.connections);
+            })
+            .catch((err) => {
+              console.log("Error fetching data:", err);
+              setNodes([]);
+              setLinks([]);
+            })
+            .then(() => {});
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     };
 
-    fetchData();
-  }, [refreshKey, selectedVersion, selectedVersion]);
+    fetchNetork();
+  }, [refreshKey, selectedVersion]);
 
-  useEffect(() => {
-    const fetchVersions = async () => {
-      try {
-        setLoading(true);
+  // useEffect(() => {
+  //   const fetchVersions = async () => {
+  //     try {
+  //       setLoading(true);
 
-        const response = await getVersions();
-        setVersions(response);
-        if (response.length > 0) {
-          setSelectedVersion(response[0].id);
-        }
-      } catch (err) {
-        console.log("Error fetching version:", err);
-        setVersions([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  //       const response = await getVersions();
+  //       setVersions(response);
+  //       if (response.length > 0) {
+  //         setSelectedVersion(response[0].id);
+  //       }
+  //     } catch (err) {
+  //       console.log("Error fetching version:", err);
+  //       setVersions([]);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchVersions();
-  }, []);
+  //   fetchVersions();
+  // }, []);
 
   return (
     <main className="flex h-screen w-full">

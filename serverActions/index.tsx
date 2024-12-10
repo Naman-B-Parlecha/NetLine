@@ -52,6 +52,8 @@ export async function getNetwork() {
   }
 }
 
+
+
 export async function getVersions() {
   try {
     const versions = await axios.get(`http://localhost:8000/versions`);
