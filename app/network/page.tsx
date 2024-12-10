@@ -62,6 +62,7 @@ export default function Home() {
       try {
         setLoading(true);
         const response = await getNetwork();
+        // const response = await getNetwork(selectedVersion);
         setNodes(response.nodes);
         setLinks(response.connections);
       } catch (err) {
@@ -74,7 +75,7 @@ export default function Home() {
     };
 
     fetchData();
-  }, [refreshKey, selectedVersion]);
+  }, [refreshKey, selectedVersion, selectedVersion]);
 
   useEffect(() => {
     const fetchVersions = async () => {

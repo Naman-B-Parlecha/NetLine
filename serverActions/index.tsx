@@ -24,7 +24,19 @@ export async function getSysLog() {
 }
 
 // integrate tmr in airport
-// export async function getNetwork(selectedVersion: string) {
+// export async function getNetwork(selectedVersion: float) {
+//   try {
+//     const nodes = await axios.get(`http://localhost:8000/network?version:${selectedVersion}`);
+//     // console.log(nodes.data);
+//     return nodes.data;
+//   } catch (error) {
+//     console.error("Error fetching nodes data:", error);
+//     return {
+//       nodes: [],
+//       connections: [],
+//     };
+//   }
+// }
 
 export async function getNetwork() {
   try {

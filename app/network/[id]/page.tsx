@@ -17,11 +17,11 @@ export default function RouterPage({ params }: { params: { id: string } }) {
           <CardContent>
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold">12</div>
+                <div className="text-2xl font-bold text-green-500">12</div>
                 <p className="text-xs text-muted-foreground">Up</p>
               </div>
               <div>
-                <div className="text-2xl font-bold">0</div>
+                <div className="text-2xl font-bold text-red-500">0</div>
                 <p className="text-xs text-muted-foreground">Down</p>
               </div>
             </div>
@@ -36,11 +36,11 @@ export default function RouterPage({ params }: { params: { id: string } }) {
           <CardContent>
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold">-</div>
+                <div className="text-2xl font-bold text-blue-500">-</div>
                 <p className="text-xs text-muted-foreground">Small</p>
               </div>
               <div>
-                <div className="text-2xl font-bold">-</div>
+                <div className="text-2xl font-bold text-blue-500">-</div>
                 <p className="text-xs text-muted-foreground">Large</p>
               </div>
             </div>
@@ -53,13 +53,13 @@ export default function RouterPage({ params }: { params: { id: string } }) {
             <Wifi className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2">
               <div>
-                <div className="text-2xl font-bold">3</div>
+                <div className="text-2xl font-bold text-green-500">3</div>
                 <p className="text-xs text-muted-foreground">Received</p>
               </div>
               <div>
-                <div className="text-2xl font-bold">-</div>
+                <div className="text-2xl font-bold text-red-500">-</div>
                 <p className="text-xs text-muted-foreground">Transmitted</p>
               </div>
             </div>
@@ -72,7 +72,7 @@ export default function RouterPage({ params }: { params: { id: string } }) {
             <Timer className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">55ms</div>
+            <div className="text-2xl font-bold text-blue-500">55ms</div>
             <p className="text-xs text-muted-foreground">Last checked</p>
           </CardContent>
         </Card>
@@ -83,7 +83,7 @@ export default function RouterPage({ params }: { params: { id: string } }) {
             <Cpu className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">-</div>
+            <div className="text-2xl font-bold text-blue-500">-</div>
             <p className="text-xs text-muted-foreground">Usage</p>
           </CardContent>
         </Card>
@@ -94,7 +94,7 @@ export default function RouterPage({ params }: { params: { id: string } }) {
             <HardDrive className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">-</div>
+            <div className="text-2xl font-bold text-blue-500">-</div>
             <p className="text-xs text-muted-foreground">Usage</p>
           </CardContent>
         </Card>

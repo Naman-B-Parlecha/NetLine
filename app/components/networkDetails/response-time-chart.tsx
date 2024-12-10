@@ -70,7 +70,7 @@ export function ResponseTimeChart() {
         <Line
           type="monotone"
           dataKey="value"
-          stroke="hsl(var(--primary))"
+          stroke="#3b82f6"
           strokeWidth={2}
           dot={false}
         />

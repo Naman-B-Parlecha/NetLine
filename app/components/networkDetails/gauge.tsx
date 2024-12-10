@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
 export function Gauge({
   value,
   size = "large",
 }: {
-  value: number
-  size?: "small" | "large"
+  value: number;
+  size?: "small" | "large";
 }) {
-  const dimensions = size === "small" ? 100 : 150
-  const strokeWidth = size === "small" ? 8 : 12
-  const radius = (dimensions - strokeWidth) / 2
-  const circumference = 2 * Math.PI * radius
+  const dimensions = size === "small" ? 100 : 150;
+  const strokeWidth = size === "small" ? 8 : 12;
+  const radius = (dimensions - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
 
   return (
     <div className="relative">
@@ -20,7 +20,7 @@ export function Gauge({
         height={dimensions}
       >
         <circle
-          className="text-muted-foreground/20"
+          className="text-blue-200"
           strokeWidth={strokeWidth}
           stroke="currentColor"
           fill="transparent"
@@ -29,7 +29,7 @@ export function Gauge({
           cy={dimensions / 2}
         />
         <circle
-          className="text-primary transition-all duration-300 ease-in-out"
+          className="text-blue-500 transition-all duration-300 ease-in-out"
           strokeWidth={strokeWidth}
           strokeDasharray={circumference}
           strokeDashoffset={circumference - (value / 100) * circumference}
@@ -46,10 +46,9 @@ export function Gauge({
           size === "small" ? "text-2xl" : "text-3xl"
         }`}
       >
-        <span className="font-bold">{value}%</span>
-        <span className="text-xs text-muted-foreground">Up</span>
+        <span className="font-bold text-black">{value}%</span>
+        <span className="text-xs text-black">Up</span>
       </div>
     </div>
-  )
+  );
 }
-
