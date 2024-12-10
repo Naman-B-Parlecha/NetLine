@@ -5,7 +5,7 @@ import ButtonGroup from "../components/Network/ButtonGroup";
 import NetworkGraph from "../components/Network/NetworkVisualizer";
 import { snmpData } from "../constants/index";
 import { useRouter } from "next/navigation";
-import { getNetwork } from "@/serverActions";
+import { getNetwork, getVersions } from "@/serverActions";
 import { LuLoader2 } from "react-icons/lu";
 import VersionSelector from "../components/Network/VersionSelector";
 
@@ -24,9 +24,8 @@ export default function Home() {
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [versions, setVersions] = useState(dummyVersions);
-  const [selectedVersion, setSelectedVersion] = useState(dummyVersions[0].hash);
-
+  const [versions, setVersions] = useState<any[]>([]);
+  const [selectedVersion, setSelectedVersion] = useState(null);
   const handleAdjacencyCheck = () => {
     setShowAdjacency(true);
   };
@@ -60,14 +59,8 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!selectedVersion) return;
-
       try {
         setLoading(true);
-
-        // will add this in airport
-        // const response = await getNetwork(selectedVersion);
-
         const response = await getNetwork();
         setNodes(response.nodes);
         setLinks(response.connections);
@@ -83,6 +76,27 @@ export default function Home() {
     fetchData();
   }, [refreshKey, selectedVersion]);
 
+  useEffect(() => {
+    const fetchVersions = async () => {
+      try {
+        setLoading(true);
+
+        const response = await getVersions();
+        setVersions(response);
+        if (response.length > 0) {
+          setSelectedVersion(response[0].id);
+        }
+      } catch (err) {
+        console.log("Error fetching version:", err);
+        setVersions([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVersions();
+  }, []);
+
   return (
     <main className="flex h-screen w-full">
       <section className="w-3/4 bg-gray-300/20 p-4">
@@ -91,6 +105,7 @@ export default function Home() {
             Current Network State
           </h1>
           <VersionSelector
+            isloading={loading}
             versions={versions}
             selectedVersion={selectedVersion}
             onVersionChange={setSelectedVersion}

@@ -6,24 +6,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { LuLoader2 } from "react-icons/lu";
 
-interface Version {
-  hash: string;
-  timestamp: string;
-}
+// interface Version {
+//   id: any
+//   nodes
+// }
 
 interface VersionSelectorProps {
-  versions: Version[];
+  versions: any[];
   selectedVersion: string | null;
-  onVersionChange: (version: string) => void;
+  onVersionChange: (version: any) => void;
+  isloading: boolean;
 }
 
 const VersionSelector = ({
   versions,
   selectedVersion,
   onVersionChange,
+  isloading,
 }: VersionSelectorProps) => {
-  return (
+  console.log("here -> ", versions);
+
+  return isloading ? (
+    <div className="flex justify-center items-center">
+      <LuLoader2 className="animate-spin" size={25} />
+    </div>
+  ) : (
     <div className="mb-4">
       <Select value={selectedVersion || ""} onValueChange={onVersionChange}>
         <SelectTrigger className="w-[300px]">
@@ -31,9 +40,10 @@ const VersionSelector = ({
         </SelectTrigger>
         <SelectContent>
           {versions.map((version) => (
-            <SelectItem key={version.hash} value={version.hash}>
-              {new Date(version.timestamp).toLocaleString()} -{" "}
-              {version.hash.substring(0, 7)}
+            <SelectItem key={version.id} value={version.id}>
+              {/* {new Date(version.timestamp).toLocaleString()} -{" "}
+              {version.hash.substring(0, 7)} */}
+              {version.id}
             </SelectItem>
           ))}
         </SelectContent>
