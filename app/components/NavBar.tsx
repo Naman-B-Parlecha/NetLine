@@ -146,8 +146,8 @@ const Navbar = () => {
   return (
     <nav
       className={`w-1/5 ${
-        pathName.includes("ssh-terminal") ? "bg-[#111827]" : "bg-white"
-      } p-4 flex flex-col gap-6 border-r-blue-500/20 border-2`}
+        pathName.includes("ssh-terminal") ? "bg-[#000022]" : "bg-white"
+      } p-4 flex flex-col gap-6 border-r-blue-500/20 border-r-2`}
     >
       <div className="w-full flex flex-row flex-nowrap items-center gap-2 p-2">
         <Image src={"/logo.png"} alt="logo" width={40} height={40} />
