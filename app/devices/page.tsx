@@ -57,7 +57,7 @@ export default function NetworkMonitor() {
       <Table className="w-full">
         <TableHeader>
           <TableRow>
-            <TableHead className="text-center">HOSTNAME</TableHead>
+            <TableHead className="">HOSTNAME</TableHead>
             <TableHead className="text-center">STATUS</TableHead>
             <TableHead className="text-center">IP</TableHead>
             <TableHead className="text-center">TYPE</TableHead>
@@ -72,7 +72,9 @@ export default function NetworkMonitor() {
         <TableBody className="h-fit">
           {paginatedDevices.map((device) => (
             <TableRow key={device.ip}>
-              <TableCell className="text-xs text-center">{device.monitor}</TableCell>
+              <TableCell className="text-xs">
+                {device.monitor}
+              </TableCell>
               <TableCell className="text-center">
                 <Badge
                   variant={device.status === "up" ? "outline" : "destructive"}
@@ -102,9 +104,11 @@ export default function NetworkMonitor() {
                   <Workflow className="w-5 h-5 text-orange-500" />
                 )}
               </TableCell>
-              <TableCell className="text-center text-xs">10</TableCell>
               <TableCell className="text-center text-xs">
-                <RiskMeter value={25} className="w-full" />
+                {device.downTimeCount}
+              </TableCell>
+              <TableCell className="text-center text-xs">
+                <RiskMeter value={device.risk} className="w-full" />
               </TableCell>
               {/* <TableCell className="text-center text-xs">
                 <Badge

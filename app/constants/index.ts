@@ -535,6 +535,8 @@ export const NetworkDeviceMonitor = [
         group: "SCADA > Gas Pipeline",
         osVersion: "Cisco IOS Software [3750]",
         model: "3750",
+        risk: 12,
+        downTimeCount: 2
     },
     {
         monitor: "Router 2",
@@ -544,6 +546,8 @@ export const NetworkDeviceMonitor = [
         group: "SCADA > Gas Pipeline",
         osVersion: "Cisco IOS Software [3750]",
         model: "3750",
+        risk: 24,
+        downTimeCount: 0
     },
     {
         monitor: "Router 3",
@@ -553,6 +557,8 @@ export const NetworkDeviceMonitor = [
         group: "SCADA > Gas Pipeline",
         osVersion: "Cisco IOS Software [3750]",
         model: "3750",
+        risk: 9,
+        downTimeCount: 3
     },
     {
         monitor: "Router 4",
@@ -562,6 +568,8 @@ export const NetworkDeviceMonitor = [
         group: "SCADA > Gas Pipeline",
         osVersion: "Cisco IOS Software [3750]",
         model: "3750",
+        risk: 34,
+        downTimeCount: 1
     },
     {
         monitor: "Router 5",
@@ -571,6 +579,8 @@ export const NetworkDeviceMonitor = [
         group: "SCADA > Gas Pipeline",
         osVersion: "Cisco IOS Software [3750]",
         model: "3750",
+        risk: 29,
+        downTimeCount: 0
     },
 ];
 
@@ -582,8 +592,8 @@ export const singleRouterData = {
         "bufferMiss": { "small": 2, "large": 1 },
         "packetLoss": { "received": 3, "transmitted": 1 },
         "responseTime": "55ms",
-        "cpuUsage": "-",
-        "memoryUsage": "-",
+        "cpuUsage": "35%",
+        "memoryUsage": "62%",
         "networkStats": [
             { "name": "Interface 1", "total": 1200 },
             { "name": "Interface 2", "total": 900 },
@@ -609,12 +619,12 @@ export const singleRouterData = {
     },
     "Router 2": {
         "id": "2",
-        "interfaces": { "up": 10, "down": 2 },
+        "interfaces": { "up": 1, "down": 2 },
         "bufferMiss": { "small": 0, "large": 0 },
         "packetLoss": { "received": 1, "transmitted": 0 },
         "responseTime": "60ms",
-        "cpuUsage": "-",
-        "memoryUsage": "-",
+        "cpuUsage": "42%",
+        "memoryUsage": "58%",
         "networkStats": [
             { "name": "Interface 1", "total": 1100 },
             { "name": "Interface 2", "total": 800 },
@@ -640,12 +650,12 @@ export const singleRouterData = {
     },
     "Router 3": {
         "id": "3",
-        "interfaces": { "up": 8, "down": 4 },
+        "interfaces": { "up": 3, "down": 0 },
         "bufferMiss": { "small": 3, "large": 2 },
         "packetLoss": { "received": 5, "transmitted": 2 },
         "responseTime": "70ms",
-        "cpuUsage": "-",
-        "memoryUsage": "-",
+        "cpuUsage": "52%",
+        "memoryUsage": "75%",
         "networkStats": [
             { "name": "Interface 1", "total": 950 },
             { "name": "Interface 2", "total": 720 },
@@ -671,12 +681,12 @@ export const singleRouterData = {
     },
     "Router 4": {
         "id": "4",
-        "interfaces": { "up": 9, "down": 1 },
+        "interfaces": { "up": 1, "down": 2 },
         "bufferMiss": { "small": 1, "large": 0 },
         "packetLoss": { "received": 2, "transmitted": 0 },
         "responseTime": "58ms",
-        "cpuUsage": "-",
-        "memoryUsage": "-",
+        "cpuUsage": "38%",
+        "memoryUsage": "55%",
         "networkStats": [
             { "name": "Interface 1", "total": 1050 },
             { "name": "Interface 2", "total": 880 },
@@ -702,12 +712,12 @@ export const singleRouterData = {
     },
     "Router 5": {
         "id": "5",
-        "interfaces": { "up": 7, "down": 5 },
+        "interfaces": { "up": 2, "down": 1 },
         "bufferMiss": { "small": 4, "large": 3 },
         "packetLoss": { "received": 6, "transmitted": 3 },
         "responseTime": "80ms",
-        "cpuUsage": "-",
-        "memoryUsage": "-",
+        "cpuUsage": "65%",
+        "memoryUsage": "82%",
         "networkStats": [
             { "name": "Interface 1", "total": 900 },
             { "name": "Interface 2", "total": 650 },
@@ -730,5 +740,408 @@ export const singleRouterData = {
             { "label": "Last 90 Days", "value": 90 }
         ],
         "gauge": { "value": 92, "size": "large" }
-    }
+    },
+    "Router 6": {
+        "id": "6",
+        "interfaces": { "up": 0, "down": 3 },
+        "bufferMiss": { "small": 1, "large": 1 },
+        "packetLoss": { "received": 2, "transmitted": 1 },
+        "responseTime": "62ms",
+        "cpuUsage": "45%",
+        "memoryUsage": "60%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 1250 },
+            { "name": "Interface 2", "total": 950 },
+            { "name": "Interface 3", "total": 750 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 55 },
+            { "time": "03:00", "value": 60 },
+            { "time": "06:00", "value": 52 },
+            { "time": "09:00", "value": 70 },
+            { "time": "12:00", "value": 65 },
+            { "time": "15:00", "value": 72 },
+            { "time": "18:00", "value": 58 },
+            { "time": "21:00", "value": 52 },
+            { "time": "24:00", "value": 55 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 97 },
+            { "label": "Last 7 Days", "value": 95 },
+            { "label": "Last 90 Days", "value": 96 }
+        ],
+        "gauge": { "value": 97, "size": "large" }
+    },
+    "Router 7": {
+        "id": "7",
+        "interfaces": { "up": 2, "down": 1 },
+        "bufferMiss": { "small": 5, "large": 2 },
+        "packetLoss": { "received": 7, "transmitted": 3 },
+        "responseTime": "85ms",
+        "cpuUsage": "70%",
+        "memoryUsage": "85%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 850 },
+            { "name": "Interface 2", "total": 600 },
+            { "name": "Interface 3", "total": 450 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 60 },
+            { "time": "03:00", "value": 75 },
+            { "time": "06:00", "value": 68 },
+            { "time": "09:00", "value": 80 },
+            { "time": "12:00", "value": 75 },
+            { "time": "15:00", "value": 85 },
+            { "time": "18:00", "value": 70 },
+            { "time": "21:00", "value": 65 },
+            { "time": "24:00", "value": 62 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 90 },
+            { "label": "Last 7 Days", "value": 87 },
+            { "label": "Last 90 Days", "value": 88 }
+        ],
+        "gauge": { "value": 90, "size": "large" }
+    },
+    "Router 8": {
+        "id": "8",
+        "interfaces": { "up": 2, "down": 1 },
+        "bufferMiss": { "small": 0, "large": 1 },
+        "packetLoss": { "received": 1, "transmitted": 0 },
+        "responseTime": "57ms",
+        "cpuUsage": "40%",
+        "memoryUsage": "56%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 1300 },
+            { "name": "Interface 2", "total": 1000 },
+            { "name": "Interface 3", "total": 800 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 50 },
+            { "time": "03:00", "value": 55 },
+            { "time": "06:00", "value": 48 },
+            { "time": "09:00", "value": 65 },
+            { "time": "12:00", "value": 60 },
+            { "time": "15:00", "value": 70 },
+            { "time": "18:00", "value": 55 },
+            { "time": "21:00", "value": 50 },
+            { "time": "24:00", "value": 52 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 99 },
+            { "label": "Last 7 Days", "value": 98 },
+            { "label": "Last 90 Days", "value": 99 }
+        ],
+        "gauge": { "value": 99, "size": "large" }
+    },
+    "Router 9": {
+        "id": "9",
+        "interfaces": { "up": 1, "down": 2 },
+        "bufferMiss": { "small": 6, "large": 3 },
+        "packetLoss": { "received": 8, "transmitted": 4 },
+        "responseTime": "90ms",
+        "cpuUsage": "75%",
+        "memoryUsage": "88%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 800 },
+            { "name": "Interface 2", "total": 550 },
+            { "name": "Interface 3", "total": 400 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 62 },
+            { "time": "03:00", "value": 78 },
+            { "time": "06:00", "value": 70 },
+            { "time": "09:00", "value": 82 },
+            { "time": "12:00", "value": 78 },
+            { "time": "15:00", "value": 88 },
+            { "time": "18:00", "value": 72 },
+            { "time": "21:00", "value": 67 },
+            { "time": "24:00", "value": 64 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 88 },
+            { "label": "Last 7 Days", "value": 85 },
+            { "label": "Last 90 Days", "value": 86 }
+        ],
+        "gauge": { "value": 88, "size": "large" }
+    },
+    "Router 10": {
+        "id": "10",
+        "interfaces": { "up": 3, "down": 0 },
+        "bufferMiss": { "small": 2, "large": 1 },
+        "packetLoss": { "received": 3, "transmitted": 1 },
+        "responseTime": "55ms",
+        "cpuUsage": "35%",
+        "memoryUsage": "62%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 1200 },
+            { "name": "Interface 2", "total": 900 },
+            { "name": "Interface 3", "total": 700 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 50 },
+            { "time": "03:00", "value": 55 },
+            { "time": "06:00", "value": 45 },
+            { "time": "09:00", "value": 65 },
+            { "time": "12:00", "value": 60 },
+            { "time": "15:00", "value": 75 },
+            { "time": "18:00", "value": 55 },
+            { "time": "21:00", "value": 45 },
+            { "time": "24:00", "value": 50 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 100 },
+            { "label": "Last 7 Days", "value": 95 },
+            { "label": "Last 90 Days", "value": 99 }
+        ],
+        "gauge": { "value": 50, "size": "large" }
+    },
+    "Router 11": {
+        "id": "11",
+        "interfaces": { "up": 2, "down": 1 },
+        "bufferMiss": { "small": 0, "large": 0 },
+        "packetLoss": { "received": 1, "transmitted": 0 },
+        "responseTime": "60ms",
+        "cpuUsage": "42%",
+        "memoryUsage": "58%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 1100 },
+            { "name": "Interface 2", "total": 800 },
+            { "name": "Interface 3", "total": 650 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 48 },
+            { "time": "03:00", "value": 53 },
+            { "time": "06:00", "value": 50 },
+            { "time": "09:00", "value": 68 },
+            { "time": "12:00", "value": 63 },
+            { "time": "15:00", "value": 70 },
+            { "time": "18:00", "value": 55 },
+            { "time": "21:00", "value": 47 },
+            { "time": "24:00", "value": 52 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 98 },
+            { "label": "Last 7 Days", "value": 94 },
+            { "label": "Last 90 Days", "value": 97 }
+        ],
+        "gauge": { "value": 98, "size": "large" }
+    },
+    "Router 12": {
+        "id": "12",
+        "interfaces": { "up": 3, "down": 0 },
+        "bufferMiss": { "small": 3, "large": 2 },
+        "packetLoss": { "received": 5, "transmitted": 2 },
+        "responseTime": "70ms",
+        "cpuUsage": "52%",
+        "memoryUsage": "75%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 950 },
+            { "name": "Interface 2", "total": 720 },
+            { "name": "Interface 3", "total": 500 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 55 },
+            { "time": "03:00", "value": 65 },
+            { "time": "06:00", "value": 60 },
+            { "time": "09:00", "value": 72 },
+            { "time": "12:00", "value": 70 },
+            { "time": "15:00", "value": 78 },
+            { "time": "18:00", "value": 65 },
+            { "time": "21:00", "value": 60 },
+            { "time": "24:00", "value": 55 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 95 },
+            { "label": "Last 7 Days", "value": 92 },
+            { "label": "Last 90 Days", "value": 93 }
+        ],
+        "gauge": { "value": 95, "size": "large" }
+    },
+    "Router 13": {
+        "id": "13",
+        "interfaces": { "up": 0, "down": 3 },
+        "bufferMiss": { "small": 1, "large": 0 },
+        "packetLoss": { "received": 2, "transmitted": 0 },
+        "responseTime": "58ms",
+        "cpuUsage": "38%",
+        "memoryUsage": "55%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 1050 },
+            { "name": "Interface 2", "total": 880 },
+            { "name": "Interface 3", "total": 700 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 52 },
+            { "time": "03:00", "value": 58 },
+            { "time": "06:00", "value": 50 },
+            { "time": "09:00", "value": 66 },
+            { "time": "12:00", "value": 62 },
+            { "time": "15:00", "value": 68 },
+            { "time": "18:00", "value": 54 },
+            { "time": "21:00", "value": 50 },
+            { "time": "24:00", "value": 52 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 99 },
+            { "label": "Last 7 Days", "value": 97 },
+            { "label": "Last 90 Days", "value": 98 }
+        ],
+        "gauge": { "value": 99, "size": "large" }
+    },
+    "Router 14": {
+        "id": "14",
+        "interfaces": { "up": 1, "down": 2 },
+        "bufferMiss": { "small": 4, "large": 3 },
+        "packetLoss": { "received": 6, "transmitted": 3 },
+        "responseTime": "80ms",
+        "cpuUsage": "65%",
+        "memoryUsage": "82%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 900 },
+            { "name": "Interface 2", "total": 650 },
+            { "name": "Interface 3", "total": 480 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 58 },
+            { "time": "03:00", "value": 70 },
+            { "time": "06:00", "value": 65 },
+            { "time": "09:00", "value": 75 },
+            { "time": "12:00", "value": 72 },
+            { "time": "15:00", "value": 80 },
+            { "time": "18:00", "value": 68 },
+            { "time": "21:00", "value": 63 },
+            { "time": "24:00", "value": 60 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 92 },
+            { "label": "Last 7 Days", "value": 89 },
+            { "label": "Last 90 Days", "value": 90 }
+        ],
+        "gauge": { "value": 92, "size": "large" }
+    },
+    "Router 15": {
+        "id": "15",
+        "interfaces": { "up": 2, "down": 1 },
+        "bufferMiss": { "small": 1, "large": 1 },
+        "packetLoss": { "received": 2, "transmitted": 1 },
+        "responseTime": "62ms",
+        "cpuUsage": "45%",
+        "memoryUsage": "60%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 1250 },
+            { "name": "Interface 2", "total": 950 },
+            { "name": "Interface 3", "total": 750 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 55 },
+            { "time": "03:00", "value": 60 },
+            { "time": "06:00", "value": 52 },
+            { "time": "09:00", "value": 70 },
+            { "time": "12:00", "value": 65 },
+            { "time": "15:00", "value": 72 },
+            { "time": "18:00", "value": 58 },
+            { "time": "21:00", "value": 52 },
+            { "time": "24:00", "value": 55 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 97 },
+            { "label": "Last 7 Days", "value": 95 },
+            { "label": "Last 90 Days", "value": 96 }
+        ],
+        "gauge": { "value": 97, "size": "large" }
+    },
+    "Router 16": {
+        "id": "16",
+        "interfaces": { "up": 1, "down": 2 },
+        "bufferMiss": { "small": 5, "large": 2 },
+        "packetLoss": { "received": 7, "transmitted": 3 },
+        "responseTime": "85ms",
+        "cpuUsage": "70%",
+        "memoryUsage": "85%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 850 },
+            { "name": "Interface 2", "total": 600 },
+            { "name": "Interface 3", "total": 450 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 60 },
+            { "time": "03:00", "value": 75 },
+            { "time": "06:00", "value": 68 },
+            { "time": "09:00", "value": 80 },
+            { "time": "12:00", "value": 75 },
+            { "time": "15:00", "value": 85 },
+            { "time": "18:00", "value": 70 },
+            { "time": "21:00", "value": 65 },
+            { "time": "24:00", "value": 62 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 90 },
+            { "label": "Last 7 Days", "value": 87 },
+            { "label": "Last 90 Days", "value": 88 }
+        ],
+        "gauge": { "value": 90, "size": "large" }
+    },
+    "Router 17": {
+        "id": "17",
+        "interfaces": { "up": 2, "down": 1 },
+        "bufferMiss": { "small": 0, "large": 1 },
+        "packetLoss": { "received": 1, "transmitted": 0 },
+        "responseTime": "57ms",
+        "cpuUsage": "40%",
+        "memoryUsage": "56%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 1300 },
+            { "name": "Interface 2", "total": 1000 },
+            { "name": "Interface 3", "total": 800 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 50 },
+            { "time": "03:00", "value": 55 },
+            { "time": "06:00", "value": 48 },
+            { "time": "09:00", "value": 65 },
+            { "time": "12:00", "value": 60 },
+            { "time": "15:00", "value": 70 },
+            { "time": "18:00", "value": 55 },
+            { "time": "21:00", "value": 50 },
+            { "time": "24:00", "value": 52 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 99 },
+            { "label": "Last 7 Days", "value": 98 },
+            { "label": "Last 90 Days", "value": 99 }
+        ],
+        "gauge": { "value": 99, "size": "large" }
+    },
+    "Router 18": {
+        "id": "18   ",
+        "interfaces": { "up": 3, "down": 0 },
+        "bufferMiss": { "small": 6, "large": 3 },
+        "packetLoss": { "received": 8, "transmitted": 4 },
+        "responseTime": "90ms",
+        "cpuUsage": "75%",
+        "memoryUsage": "88%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 800 },
+            { "name": "Interface 2", "total": 550 },
+            { "name": "Interface 3", "total": 400 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 62 },
+            { "time": "03:00", "value": 78 },
+            { "time": "06:00", "value": 70 },
+            { "time": "09:00", "value": 82 },
+            { "time": "12:00", "value": 78 },
+            { "time": "15:00", "value": 88 },
+            { "time": "18:00", "value": 72 },
+            { "time": "21:00", "value": 67 },
+            { "time": "24:00", "value": 64 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 88 },
+            { "label": "Last 7 Days", "value": 85 },
+            { "label": "Last 90 Days", "value": 86 }
+        ],
+        "gauge": { "value": 88, "size": "large" }
+    },
 }

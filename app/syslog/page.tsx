@@ -81,7 +81,7 @@ export default function Component() {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
   const [logsPerPage, setLogsPerPage] = useState<number>(9);
   const [loading, setLoading] = useState(false); // Add a loading state
 
@@ -128,7 +128,7 @@ export default function Component() {
   }, [logs, searchTerm, severityFilter, hostFilter, startDate, endDate]);
 
   useEffect(() => {
-    setLogsPerPage((prev) => (prev === 7 ? 10 : 7));
+    setLogsPerPage((prev) => (prev === 10 ? 7 : 10));
   }, [showFilters]);
 
   const indexOfLastLog = currentPage * logsPerPage;
