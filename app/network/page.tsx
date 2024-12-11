@@ -9,12 +9,6 @@ import { getNetwork, getVersions } from "@/serverActions";
 import { LuLoader2 } from "react-icons/lu";
 import VersionSelector from "../components/Network/VersionSelector";
 
-const dummyVersions = [
-  { hash: "abc123", timestamp: "2023-06-01T12:00:00Z" },
-  { hash: "def456", timestamp: "2023-06-02T14:30:00Z" },
-  { hash: "ghi789", timestamp: "2023-06-03T09:15:00Z" },
-];
-
 export default function Home() {
   const router = useRouter();
   const [selectedNode, setSelectedNode] = useState(null);
@@ -23,9 +17,10 @@ export default function Home() {
 
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [versions, setVersions] = useState<any[]>([]);
   const [selectedVersion, setSelectedVersion] = useState<number | null>(null);
+
   const handleAdjacencyCheck = () => {
     setShowAdjacency(true);
   };
@@ -39,65 +34,54 @@ export default function Home() {
     setRefreshKey((prev) => prev + 1);
   };
 
-  // will add this in airport
-
-  // useEffect(() => {
-  //   const fetchVersions = async () => {
-  //     try {
-  //       const versionData = await getNetworkVersions();
-  //       setVersions(versionData);
-  //       if (versionData.length > 0) {
-  //         setSelectedVersion(versionData[0].hash);
-  //       }
-  //     } catch (err) {
-  //       console.log("Error fetching versions:", err);
-  //     }
-  //   };
-
-  //   fetchVersions();
-  // }, []);
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchInitialData = async () => {
       try {
-        setLoading(true);
-        console.log("cutie", typeof selectedVersion);
-        const response = await getNetwork(selectedVersion);
-        // const response = await getNetwork(selectedVersion);
-        setNodes(response.nodes);
-        setLinks(response.connections);
+        setIsLoading(true);
+        const versionResponse = await getVersions();
+        setVersions(versionResponse);
+
+        if (versionResponse.length > 0) {
+          const initialVersion = versionResponse[0].id;
+          setSelectedVersion(initialVersion);
+
+          const networkResponse = await getNetwork(initialVersion);
+          setNodes(networkResponse.nodes);
+          setLinks(networkResponse.connections);
+        }
       } catch (err) {
-        console.log("Error fetching data:", err);
+        console.error("Error fetching data:", err);
+        setVersions([]);
         setNodes([]);
         setLinks([]);
       } finally {
-        setLoading(false);
+        setIsLoading(false); 
       }
     };
 
-    fetchData();
-  }, [refreshKey, selectedVersion]);
+    fetchInitialData();
+  }, [refreshKey]);
 
   useEffect(() => {
-    const fetchVersions = async () => {
-      try {
-        setLoading(true);
+    if (selectedVersion === null) return;
 
-        const response = await getVersions();
-        setVersions(response);
-        if (response.length > 0) {
-          setSelectedVersion(response[0].id);
-        }
+    const fetchNetwork = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getNetwork(selectedVersion);
+        setNodes(response.nodes);
+        setLinks(response.connections);
       } catch (err) {
-        console.log("Error fetching version:", err);
-        setVersions([]);
+        console.error("Error fetching network data:", err);
+        setNodes([]);
+        setLinks([]);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
-    fetchVersions();
-  }, []);
+    fetchNetwork();
+  }, [selectedVersion]);
 
   return (
     <main className="flex h-screen w-full">
@@ -107,13 +91,13 @@ export default function Home() {
             Current Network State
           </h1>
           <VersionSelector
-            isloading={loading}
+            isloading={isLoading}
             versions={versions}
             selectedVersion={selectedVersion}
             onVersionChange={setSelectedVersion}
           />
         </div>
-        {loading ? (
+        {isLoading ? (
           <div className="w-full h-[30rem] flex justify-center items-center">
             <LuLoader2 className="animate-spin" size={30} />
           </div>
@@ -134,7 +118,7 @@ export default function Home() {
           handleRefresh={handleRefresh}
         />
       </section>
-      <Console loading={loading} key={refreshKey} logs={snmpData} />
+      <Console loading={isLoading} key={refreshKey} logs={snmpData} />
     </main>
   );
 }
