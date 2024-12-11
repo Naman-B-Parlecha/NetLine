@@ -1,12 +1,14 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-
+import cls from "./customclass.module.css";
 const SSHTerminal: React.FC = () => {
-  const [commandHistory, setCommandHistory] = useState<{ 
-    command: string; 
-    output: string; 
-    error?: boolean;
-  }[]>([]);
+  const [commandHistory, setCommandHistory] = useState<
+    {
+      command: string;
+      output: string;
+      error?: boolean;
+    }[]
+  >([]);
   const [currentCommand, setCurrentCommand] = useState<string>("");
   const [connectionStatus, setConnectionStatus] = useState<{
     connected: boolean;
@@ -46,12 +48,12 @@ const SSHTerminal: React.FC = () => {
           const connectionResponse = await fetch("/api/ssh/execute", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-              ...routerDetails, 
+            body: JSON.stringify({
+              ...routerDetails,
               host: parts[1],
               username: parts[2],
               password: parts[3],
-              command: "echo 'Connection successful'", 
+              command: "echo 'Connection successful'",
             }),
           });
 
@@ -59,10 +61,10 @@ const SSHTerminal: React.FC = () => {
             throw new Error("Connection failed");
           }
 
-          setConnectionStatus({ 
-            connected: true, 
-            host: parts[1], 
-            username: parts[2], 
+          setConnectionStatus({
+            connected: true,
+            host: parts[1],
+            username: parts[2],
           });
           return "Connection established successfully";
 
@@ -72,7 +74,9 @@ const SSHTerminal: React.FC = () => {
 
         default:
           if (!connectionStatus.connected) {
-            throw new Error("Not connected. Use 'connect <host> <username> <password>'");
+            throw new Error(
+              "Not connected. Use 'connect <host> <username> <password>'"
+            );
           }
 
           const response = await fetch("/api/ssh/execute", {
@@ -94,43 +98,45 @@ const SSHTerminal: React.FC = () => {
     if (!trimmedCommand) return;
 
     const output = await processCommand(trimmedCommand);
-    setCommandHistory(prev => [
-      ...prev, 
-      { 
-        command: trimmedCommand, 
+    setCommandHistory((prev) => [
+      ...prev,
+      {
+        command: trimmedCommand,
         output,
         error: output.includes("Error") || output.includes("failed"),
-      }
+      },
     ]);
     setCurrentCommand("");
   };
 
   return (
-    <div className="w-full h-screen bg-black text-white font-mono p-4">
+    <div className="w-full h-screen bg-[#000022] overflow-hidden text-white font-mono p-4">
       <div className="flex space-x-2 mb-2">
         <div className="w-3 h-3 bg-red-500 rounded-full"></div>
         <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
         <div className="w-3 h-3 bg-green-500 rounded-full"></div>
       </div>
       <div
-      style={{ backgroundColor: '#000022' }} 
+        style={{ backgroundColor: "#000022" }}
         ref={terminalRef}
-        className="h-full overflow-y-auto p-2 rounded"
+        className={`h-[90vh] overflow-auto p-2 rounded ${cls.no_scrollbar}`}
       >
         <div className="mb-2">
           <span className="text-green-400">Welcome to SSH Terminal</span>
           <br />
           <span className="text-yellow-400">
-            {connectionStatus.connected 
-              ? `Connected to ${connectionStatus.username}@${connectionStatus.host}` 
+            {connectionStatus.connected
+              ? `Connected to ${connectionStatus.username}@${connectionStatus.host}`
               : "Not connected"}
           </span>
         </div>
 
         {commandHistory.map((entry, index) => (
-          <div 
-            key={index} 
-            className={`mb-1 ${entry.error ? 'text-red-400' : 'text-green-400'}`}
+          <div
+            key={index}
+            className={`mb-1 ${
+              entry.error ? "text-red-400" : "text-green-400"
+            }`}
           >
             <span className="text-white">➜</span>{" "}
             <span className="text-gray-300">{entry.command}</span>
@@ -140,8 +146,8 @@ const SSHTerminal: React.FC = () => {
 
         <div className="flex items-center">
           <span className="text-green-400">
-            {connectionStatus.connected 
-              ? `${connectionStatus.username}@${connectionStatus.host}` 
+            {connectionStatus.connected
+              ? `${connectionStatus.username}@${connectionStatus.host}`
               : ""}
           </span>
           <span className="text-white mx-2">➜</span>
@@ -149,7 +155,7 @@ const SSHTerminal: React.FC = () => {
             type="text"
             value={currentCommand}
             onChange={(e) => setCurrentCommand(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && runCommand()}
+            onKeyDown={(e) => e.key === "Enter" && runCommand()}
             placeholder="Enter command (connect/disconnect)"
             className="bg-transparent text-white outline-none flex-grow"
             autoFocus
