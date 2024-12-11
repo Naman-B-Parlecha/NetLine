@@ -144,10 +144,14 @@ const routes: {
 const Navbar = () => {
   const pathName = usePathname();
   return (
-    <nav className="w-1/5 bg-white p-4 flex flex-col gap-6 border-r-blue-500/20 border-2">
+    <nav
+      className={`w-1/5 ${
+        pathName.includes("ssh-terminal") ? "bg-[#111827]" : "bg-white"
+      } p-4 flex flex-col gap-6 border-r-blue-500/20 border-2`}
+    >
       <div className="w-full flex flex-row flex-nowrap items-center gap-2 p-2">
         <Image src={"/logo.png"} alt="logo" width={40} height={40} />
-        <h1 className="text-3xl font-bold">
+        <h1 className={`text-3xl font-bold ${pathName.includes("ssh-terminal") ? "text-white" : ""}`}>
           Net<span className="text-blue-500">Line</span>
         </h1>
       </div>
@@ -160,7 +164,7 @@ const Navbar = () => {
                 pathName.includes(route.path)
                   ? "bg-blue-500 text-white hover:bg-blue-500/100"
                   : "hover:bg-blue-500/15"
-              }`}
+              } ${pathName.includes("ssh-terminal") ? "text-white" : ""}`}
             >
               {route.svg}
               <span className="ms-3">{route.routeName}</span>

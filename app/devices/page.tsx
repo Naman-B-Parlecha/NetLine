@@ -21,6 +21,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { NetworkDeviceMonitor } from "../constants";
+import { RiskMeter } from "../components/RiskMeter";
 
 export default function NetworkMonitor() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,7 +43,7 @@ export default function NetworkMonitor() {
   return (
     <div className="w-screen p-4 h-screen overflow-auto">
       <div className="mb-4 flex justify-between items-baseline">
-        <h1 className="text-2xl font-bold font-mono pb-4">Devices</h1>
+        <h1 className="text-3xl font-bold font-mono pb-4">Devices</h1>
         <Input
           placeholder="Search"
           className="max-w-sm"
@@ -56,20 +57,22 @@ export default function NetworkMonitor() {
       <Table className="w-full">
         <TableHeader>
           <TableRow>
-            <TableHead className="text-center">MONITOR</TableHead>
+            <TableHead className="text-center">HOSTNAME</TableHead>
             <TableHead className="text-center">STATUS</TableHead>
             <TableHead className="text-center">IP</TableHead>
             <TableHead className="text-center">TYPE</TableHead>
-            <TableHead className="text-center">GROUP</TableHead>
-            <TableHead className="text-center">OS VERSION</TableHead>
+            <TableHead className="text-center">DOWNTIME COUNT</TableHead>
+            <TableHead className="text-center">RISK RATE</TableHead>
+            {/* <TableHead className="text-center">GROUP</TableHead> */}
+            {/* <TableHead className="text-center">OS VERSION</TableHead> */}
             {/* <TableHead className="text-center">SYSTEM DESCRIPTION</TableHead> */}
-            <TableHead className="text-center">MODEL</TableHead>
+            {/* <TableHead className="text-center">MODEL</TableHead> */}
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="h-fit">
           {paginatedDevices.map((device) => (
             <TableRow key={device.ip}>
-              <TableCell className="text-xs">{device.monitor}</TableCell>
+              <TableCell className="text-xs text-center">{device.monitor}</TableCell>
               <TableCell className="text-center">
                 <Badge
                   variant={device.status === "up" ? "outline" : "destructive"}
@@ -85,7 +88,7 @@ export default function NetworkMonitor() {
                 </Badge>
               </TableCell>
               <TableCell className="text-center text-xs">{device.ip}</TableCell>
-              <TableCell className="text-center text-xs">
+              <TableCell className="flex justify-center items-center text-xs">
                 {device.type === "switch" && (
                   <Network className="w-5 h-5 text-blue-500" />
                 )}
@@ -99,23 +102,27 @@ export default function NetworkMonitor() {
                   <Workflow className="w-5 h-5 text-orange-500" />
                 )}
               </TableCell>
+              <TableCell className="text-center text-xs">10</TableCell>
               <TableCell className="text-center text-xs">
+                <RiskMeter value={25} className="w-full" />
+              </TableCell>
+              {/* <TableCell className="text-center text-xs">
                 <Badge
                   variant="secondary"
                   className="bg-blue-100 text-blue-800 hover:bg-blue-200"
                 >
                   {device.group}
                 </Badge>
-              </TableCell>
-              <TableCell className="max-w-[200px] truncate text-center text-xs">
+              </TableCell> */}
+              {/* <TableCell className="max-w-[200px] truncate text-center text-xs">
                 {device.osVersion}
-              </TableCell>
+              </TableCell> */}
               {/* <TableCell className="text-center text-xs">
                 {device.systemDescription}
               </TableCell> */}
-              <TableCell className="text-center text-xs">
+              {/* <TableCell className="text-center text-xs">
                 {device.model}
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>

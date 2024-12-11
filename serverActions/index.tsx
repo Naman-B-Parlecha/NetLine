@@ -45,7 +45,7 @@ export async function getVersions() {
     console.log("version ->", versions.data);
     let list: any = [];
     versions.data.map((item: any) => {
-      list.unshift({ id: item.version });
+      list.push({ id: item.version });
     });
 
     console.log("inside ->", list);

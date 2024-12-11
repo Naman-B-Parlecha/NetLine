@@ -91,7 +91,7 @@ const NetworkGraph = ({
         "link",
         d3.forceLink(formattedLinks).id((d) => d.id)
       )
-      .force("charge", d3.forceManyBody().strength(-1000))
+      .force("charge", d3.forceManyBody().strength(-2000))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide().radius(20));
 
@@ -113,15 +113,15 @@ const NetworkGraph = ({
           case "router":
             return "/router.png";
           case "pc":
-            return "/backDot.png";
+            return "/newrouter.png";
           case "server":
             return "/server.png";
           default:
             return "";
         }
       })
-      .attr("width", 40)
-      .attr("height", 40)
+      .attr("width", 50)
+      .attr("height", 50)
       .attr("x", (d) => d.x - 40)
       .attr("y", (d) => d.y - 40)
       .style("cursor", "pointer")
