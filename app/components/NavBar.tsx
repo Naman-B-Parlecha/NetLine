@@ -139,19 +139,27 @@ const routes: {
       </svg>
     ),
   },
+  {
+    id: 5,
+    routeName: "Metrics",
+    path: "/metrics",
+    svg: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-chart-no-axes-combined"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></svg>
+    ),
+  },
 ];
 
 const Navbar = () => {
   const pathName = usePathname();
   return (
     <nav
-      className={`w-1/5 ${
-        pathName.includes("ssh-terminal") ? "bg-[#000022]" : "bg-white"
-      } p-4 flex flex-col gap-6 border-r-blue-500/20 border-r-2`}
+      className={`w-1/5  p-4 flex flex-col gap-6 border-r-blue-500/20 border-r-2 ${
+        pathName.includes("ssh-terminal") ? "bg-[#000022] text-white" : pathName.includes("metrics") ? "bg-[#000000] text-white" : "bg-white"
+      } `}
     >
       <div className="w-full flex flex-row flex-nowrap items-center gap-2 p-2">
         <Image src={"/logo.png"} alt="logo" width={40} height={40} />
-        <h1 className={`text-3xl font-bold ${pathName.includes("ssh-terminal") ? "text-white" : ""}`}>
+        <h1 className={`text-3xl font-bold ${pathName.includes("ssh-terminal")  ? "text-white" : pathName.includes("metrics") ? "text-white" : ""}` }>
           Net<span className="text-blue-500">Line</span>
         </h1>
       </div>
@@ -164,7 +172,7 @@ const Navbar = () => {
                 pathName.includes(route.path)
                   ? "bg-blue-500 text-white hover:bg-blue-500/100"
                   : "hover:bg-blue-500/15"
-              } ${pathName.includes("ssh-terminal") ? "text-white" : ""}`}
+              } ${pathName.includes("ssh-terminal") ? "text-white" : pathName.includes("metrics") ? "text-white" : ""}`}
             >
               {route.svg}
               <span className="ms-3">{route.routeName}</span>
