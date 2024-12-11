@@ -5,7 +5,7 @@ export function Gauge({
   size = "large",
 }: {
   value: number;
-  size?: "small" | "large";
+  size?: "small" | "large" | "undefined" | string;
 }) {
   const dimensions = size === "small" ? 100 : 150;
   const strokeWidth = size === "small" ? 8 : 12;

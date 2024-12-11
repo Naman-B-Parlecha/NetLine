@@ -8,37 +8,36 @@ import {
 } from "@/components/ui/select";
 import { LuLoader2 } from "react-icons/lu";
 
-// interface Version {
-//   id: any
-//   nodes
-// }
-
 interface VersionSelectorProps {
   versions: any[];
-  selectedVersion: string | null;
-  onVersionChange: (version: any) => void;
-  isloading: boolean;
+  selectedVersion: number | null;
+  onVersionChange: (version: number) => void;
+  isloading?: boolean;
 }
 
 const VersionSelector = ({
   versions,
   selectedVersion,
   onVersionChange,
-  isloading,
 }: VersionSelectorProps) => {
   console.log("here -> ", versions);
 
+  const handleChange = (value: string) => {
+    onVersionChange(parseFloat(value));
+  };
+
   return (
     <div className="mb-4">
-      <Select value={selectedVersion || ""} onValueChange={onVersionChange}>
+      <Select
+        value={selectedVersion?.toString() || ""}
+        onValueChange={handleChange}
+      >
         <SelectTrigger className="w-[300px]">
           <SelectValue placeholder="Select a version" />
-        </SelectTrigger>  
+        </SelectTrigger>
         <SelectContent>
           {versions.map((version) => (
-            <SelectItem key={version.id} value={version.id}>
-              {/* {new Date(version.timestamp).toLocaleString()} -{" "}
-              {version.hash.substring(0, 7)} */}
+            <SelectItem key={version.id} value={version.id.toString()}>
               {version.id}
             </SelectItem>
           ))}

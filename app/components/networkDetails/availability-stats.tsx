@@ -1,26 +1,11 @@
 "use client";
 
 import { Progress } from "@/components/ui/progress";
-
-const data = [
-  {
-    label: "Last Day",
-    value: 100,
-  },
-  {
-    label: "Last 7 Days",
-    value: 95,
-  },
-  {
-    label: "Last 90 Days",
-    value: 99,
-  },
-];
-
-export function AvailabilityStats() {
+export function AvailabilityStats(data: { data: any[] }) {
+  console.log(data);
   return (
     <div className="space-y-4">
-      {data.map((item) => (
+      {data.data.map((item) => (
         <div key={item.label} className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">

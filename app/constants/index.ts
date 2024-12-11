@@ -526,107 +526,209 @@ export const sysLogData = [
         "message": "SYS-CPUYLD:Task ran for (3320)msecs, more than (2000)msecs (0/0),process = Exec"
     }
 ]
-
 export const NetworkDeviceMonitor = [
     {
-        monitor: "GAIL-ROU-01GUJ",
+        monitor: "Router 1",
         status: "up",
-        ip: "10.1.1.1",
+        ip: "192.168.1.1",
         type: "router",
-        group: "SCADA > Gas Pipeline > Gujarat",
-        osVersion: "Cisco IOS Software [3250]",
-        systemDescription: "Cisco Catalyst 3750-24TS",
-        model: "Catalyst 3750",
+        group: "SCADA > Gas Pipeline",
+        osVersion: "Cisco IOS Software [3750]",
+        model: "3750",
     },
     {
-        monitor: "GAIL-ROU-02MH",
+        monitor: "Router 2",
         status: "up",
-        ip: "10.2.1.1",
+        ip: "192.168.1.2",
         type: "router",
-        group: "SCADA > Gas Pipeline > Maharashtra",
-        osVersion: "Cisco IOS Software [3250]",
-        systemDescription: "Cisco Catalyst 3750G-12S",
-        model: "Catalyst 3750",
+        group: "SCADA > Gas Pipeline",
+        osVersion: "Cisco IOS Software [3750]",
+        model: "3750",
     },
     {
-        monitor: "GAIL-ROU-03UP",
-        status: "unreachable",
-        ip: "192.168.10.2",
-        type: "router",
-        group: "SCADA > Gas Pipeline > Uttar Pradesh",
-        osVersion: "Cisco IOS Software [3250]",
-        systemDescription: "Cisco Catalyst 3750E-24TD",
-        model: "Catalyst 3750",
-    },
-    {
-        monitor: "GAIL-ROU-04RJ",
-        status: "down",
-        ip: "10.3.5.1",
-        type: "router",
-        group: "SCADA > Gas Pipeline > Rajasthan",
-        osVersion: "Cisco IOS Software [3250]",
-        systemDescription: "Cisco Catalyst 3750X-48P",
-        model: "Catalyst 3750",
-    },
-    {
-        monitor: "GAIL-ROU-05DL",
+        monitor: "Router 3",
         status: "up",
-        ip: "192.168.20.10",
+        ip: "192.168.1.3",
         type: "router",
-        group: "SCADA > Gas Pipeline > Delhi",
-        osVersion: "Cisco IOS Software [3250]",
-        systemDescription: "Cisco Catalyst 3750V2-48PS",
-        model: "Catalyst 3750",
+        group: "SCADA > Gas Pipeline",
+        osVersion: "Cisco IOS Software [3750]",
+        model: "3750",
     },
     {
-        monitor: "GAIL-ROU-06WB",
+        monitor: "Router 4",
         status: "up",
-        ip: "10.4.6.2",
+        ip: "192.168.1.4",
         type: "router",
-        group: "SCADA > Gas Pipeline > West Bengal",
-        osVersion: "Cisco IOS Software [3250]",
-        systemDescription: "Cisco Catalyst 3750-48TS",
-        model: "Catalyst 3750",
+        group: "SCADA > Gas Pipeline",
+        osVersion: "Cisco IOS Software [3750]",
+        model: "3750",
     },
     {
-        monitor: "GAIL-ROU-07KA",
-        status: "unreachable",
-        ip: "192.168.50.5",
-        type: "router",
-        group: "SCADA > Gas Pipeline > Karnataka",
-        osVersion: "Cisco IOS Software [3250]",
-        systemDescription: "Cisco Catalyst 3750E-48PD",
-        model: "Catalyst 3750",
-    },
-    {
-        monitor: "GAIL-ROU-08TN",
-        status: "down",
-        ip: "10.5.2.1",
-        type: "router",
-        group: "SCADA > Gas Pipeline > Tamil Nadu",
-        osVersion: "Cisco IOS Software [3250]",
-        systemDescription: "Cisco Catalyst 3750G-24T",
-        model: "Catalyst 3750",
-    },
-    {
-        monitor: "GAIL-ROU-09AP",
+        monitor: "Router 5",
         status: "up",
-        ip: "10.6.3.1",
+        ip: "192.168.1.5",
         type: "router",
-        group: "SCADA > Gas Pipeline > Andhra Pradesh",
-        osVersion: "Cisco IOS Software [3250]",
-        systemDescription: "Cisco Catalyst 3750-12S",
-        model: "Catalyst 3750",
-    },
-    {
-        monitor: "GAIL-ROU-10HR",
-        status: "up",
-        ip: "10.7.4.10",
-        type: "router",
-        group: "SCADA > Gas Pipeline > Haryana",
-        osVersion: "Cisco IOS Software [3250]",
-        systemDescription: "Cisco Catalyst 3750X-24T",
-        model: "Catalyst 3750",
+        group: "SCADA > Gas Pipeline",
+        osVersion: "Cisco IOS Software [3750]",
+        model: "3750",
     },
 ];
 
+
+export const singleRouterData = {
+    "Router 1": {
+        "id": "1",
+        "interfaces": { "up": 2, "down": 1 },
+        "bufferMiss": { "small": 2, "large": 1 },
+        "packetLoss": { "received": 3, "transmitted": 1 },
+        "responseTime": "55ms",
+        "cpuUsage": "23%",
+        "memoryUsage": "68%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 1200 },
+            { "name": "Interface 2", "total": 900 },
+            { "name": "Interface 3", "total": 700 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 50 },
+            { "time": "03:00", "value": 55 },
+            { "time": "06:00", "value": 45 },
+            { "time": "09:00", "value": 65 },
+            { "time": "12:00", "value": 60 },
+            { "time": "15:00", "value": 75 },
+            { "time": "18:00", "value": 55 },
+            { "time": "21:00", "value": 45 },
+            { "time": "24:00", "value": 50 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 100 },
+            { "label": "Last 7 Days", "value": 95 },
+            { "label": "Last 90 Days", "value": 99 }
+        ],
+        "gauge": { "value": 50, "size": "large" }
+    },
+    "Router 2": {
+        "id": "2",
+        "interfaces": { "up": 10, "down": 2 },
+        "bufferMiss": { "small": 0, "large": 0 },
+        "packetLoss": { "received": 1, "transmitted": 0 },
+        "responseTime": "60ms",
+        "cpuUsage": "19%",
+        "memoryUsage": "72%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 1100 },
+            { "name": "Interface 2", "total": 800 },
+            { "name": "Interface 3", "total": 650 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 48 },
+            { "time": "03:00", "value": 53 },
+            { "time": "06:00", "value": 50 },
+            { "time": "09:00", "value": 68 },
+            { "time": "12:00", "value": 63 },
+            { "time": "15:00", "value": 70 },
+            { "time": "18:00", "value": 55 },
+            { "time": "21:00", "value": 47 },
+            { "time": "24:00", "value": 52 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 98 },
+            { "label": "Last 7 Days", "value": 94 },
+            { "label": "Last 90 Days", "value": 97 }
+        ],
+        "gauge": { "value": 98, "size": "large" }
+    },
+    "Router 3": {
+        "id": "3",
+        "interfaces": { "up": 8, "down": 4 },
+        "bufferMiss": { "small": 3, "large": 2 },
+        "packetLoss": { "received": 5, "transmitted": 2 },
+        "responseTime": "70ms",
+        "cpuUsage": "34%",
+        "memoryUsage": "81%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 950 },
+            { "name": "Interface 2", "total": 720 },
+            { "name": "Interface 3", "total": 500 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 55 },
+            { "time": "03:00", "value": 65 },
+            { "time": "06:00", "value": 60 },
+            { "time": "09:00", "value": 72 },
+            { "time": "12:00", "value": 70 },
+            { "time": "15:00", "value": 78 },
+            { "time": "18:00", "value": 65 },
+            { "time": "21:00", "value": 60 },
+            { "time": "24:00", "value": 55 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 95 },
+            { "label": "Last 7 Days", "value": 92 },
+            { "label": "Last 90 Days", "value": 93 }
+        ],
+        "gauge": { "value": 95, "size": "large" }
+    },
+    "Router 4": {
+        "id": "4",
+        "interfaces": { "up": 9, "down": 1 },
+        "bufferMiss": { "small": 1, "large": 0 },
+        "packetLoss": { "received": 2, "transmitted": 0 },
+        "responseTime": "58ms",
+        "cpuUsage": "22%",
+        "memoryUsage": "65%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 1050 },
+            { "name": "Interface 2", "total": 880 },
+            { "name": "Interface 3", "total": 700 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 52 },
+            { "time": "03:00", "value": 58 },
+            { "time": "06:00", "value": 50 },
+            { "time": "09:00", "value": 66 },
+            { "time": "12:00", "value": 62 },
+            { "time": "15:00", "value": 68 },
+            { "time": "18:00", "value": 54 },
+            { "time": "21:00", "value": 50 },
+            { "time": "24:00", "value": 52 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 99 },
+            { "label": "Last 7 Days", "value": 97 },
+            { "label": "Last 90 Days", "value": 98 }
+        ],
+        "gauge": { "value": 99, "size": "large" }
+    },
+    "Router 5": {
+        "id": "5",
+        "interfaces": { "up": 7, "down": 5 },
+        "bufferMiss": { "small": 4, "large": 3 },
+        "packetLoss": { "received": 6, "transmitted": 3 },
+        "responseTime": "80ms",
+        "cpuUsage": "38%",
+        "memoryUsage": "88%",
+        "networkStats": [
+            { "name": "Interface 1", "total": 900 },
+            { "name": "Interface 2", "total": 650 },
+            { "name": "Interface 3", "total": 480 }
+        ],
+        "responseTimeChart": [
+            { "time": "00:00", "value": 58 },
+            { "time": "03:00", "value": 70 },
+            { "time": "06:00", "value": 65 },
+            { "time": "09:00", "value": 75 },
+            { "time": "12:00", "value": 72 },
+            { "time": "15:00", "value": 80 },
+            { "time": "18:00", "value": 68 },
+            { "time": "21:00", "value": 63 },
+            { "time": "24:00", "value": 60 }
+        ],
+        "availabilityStats": [
+            { "label": "Last Day", "value": 92 },
+            { "label": "Last 7 Days", "value": 89 },
+            { "label": "Last 90 Days", "value": 90 }
+        ],
+        "gauge": { "value": 92, "size": "large" }
+    }
+}

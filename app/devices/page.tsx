@@ -62,7 +62,7 @@ export default function NetworkMonitor() {
             <TableHead className="text-center">TYPE</TableHead>
             <TableHead className="text-center">GROUP</TableHead>
             <TableHead className="text-center">OS VERSION</TableHead>
-            <TableHead className="text-center">SYSTEM DESCRIPTION</TableHead>
+            {/* <TableHead className="text-center">SYSTEM DESCRIPTION</TableHead> */}
             <TableHead className="text-center">MODEL</TableHead>
           </TableRow>
         </TableHeader>
@@ -110,9 +110,9 @@ export default function NetworkMonitor() {
               <TableCell className="max-w-[200px] truncate text-center text-xs">
                 {device.osVersion}
               </TableCell>
-              <TableCell className="text-center text-xs">
+              {/* <TableCell className="text-center text-xs">
                 {device.systemDescription}
-              </TableCell>
+              </TableCell> */}
               <TableCell className="text-center text-xs">
                 {device.model}
               </TableCell>

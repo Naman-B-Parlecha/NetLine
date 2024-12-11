@@ -91,7 +91,7 @@ const NetworkGraph = ({
         "link",
         d3.forceLink(formattedLinks).id((d) => d.id)
       )
-      .force("charge", d3.forceManyBody().strength(-3000))
+      .force("charge", d3.forceManyBody().strength(-1000))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide().radius(20));
 

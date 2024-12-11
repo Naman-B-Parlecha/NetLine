@@ -25,7 +25,7 @@ export default function Home() {
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [versions, setVersions] = useState<any[]>([]);
-  const [selectedVersion, setSelectedVersion] = useState(null);
+  const [selectedVersion, setSelectedVersion] = useState<number | null>(null);
   const handleAdjacencyCheck = () => {
     setShowAdjacency(true);
   };
@@ -57,81 +57,47 @@ export default function Home() {
   //   fetchVersions();
   // }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const response = await getNetwork();
-  //       // const response = await getNetwork(selectedVersion);
-  //       setNodes(response.nodes);
-  //       setLinks(response.connections);
-  //     } catch (err) {
-  //       console.log("Error fetching data:", err);
-  //       setNodes([]);
-  //       setLinks([]);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [refreshKey, selectedVersion]);
-
   useEffect(() => {
-    setLoading(true);
-    const fetchNetork = () => {
-      getVersions()
-        .then((response) => {
-          setVersions(response);
-          if (response.length > 0) {
-            setSelectedVersion(response[0].id);
-          }
-        })
-        .catch((err) => {
-          console.log("Error fetching version:", err);
-          setVersions([]);
-        })
-        .then(() => {
-          getNetwork()
-            .then((response) => {
-              setNodes(response.nodes);
-              setLinks(response.connections);
-            })
-            .catch((err) => {
-              console.log("Error fetching data:", err);
-              setNodes([]);
-              setLinks([]);
-            })
-            .then(() => {});
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        console.log("cutie", typeof selectedVersion);
+        const response = await getNetwork(selectedVersion);
+        // const response = await getNetwork(selectedVersion);
+        setNodes(response.nodes);
+        setLinks(response.connections);
+      } catch (err) {
+        console.log("Error fetching data:", err);
+        setNodes([]);
+        setLinks([]);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchNetork();
+    fetchData();
   }, [refreshKey, selectedVersion]);
 
-  // useEffect(() => {
-  //   const fetchVersions = async () => {
-  //     try {
-  //       setLoading(true);
+  useEffect(() => {
+    const fetchVersions = async () => {
+      try {
+        setLoading(true);
 
-  //       const response = await getVersions();
-  //       setVersions(response);
-  //       if (response.length > 0) {
-  //         setSelectedVersion(response[0].id);
-  //       }
-  //     } catch (err) {
-  //       console.log("Error fetching version:", err);
-  //       setVersions([]);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+        const response = await getVersions();
+        setVersions(response);
+        if (response.length > 0) {
+          setSelectedVersion(response[0].id);
+        }
+      } catch (err) {
+        console.log("Error fetching version:", err);
+        setVersions([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fetchVersions();
-  // }, []);
+    fetchVersions();
+  }, []);
 
   return (
     <main className="flex h-screen w-full">
