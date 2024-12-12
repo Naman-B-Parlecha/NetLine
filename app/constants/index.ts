@@ -582,6 +582,17 @@ export const NetworkDeviceMonitor = [
         risk: 29,
         downTimeCount: 0
     },
+    {
+        monitor: "Router 6",
+        status: "up",
+        ip: "192.168.1.6",
+        type: "router",
+        group: "SCADA > Gas Pipeline",
+        osVersion: "Cisco IOS Software [3750]",
+        model: "3750",
+        risk: 12,
+        downTimeCount: 2
+    },
 ];
 
 
