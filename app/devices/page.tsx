@@ -182,7 +182,7 @@ export default function NetworkMonitor() {
                   {device.downTimeCount}
                 </TableCell>
                 <TableCell className="text-center text-xs">
-                  {device.prediction === 0 ? "NO" : "YES"}
+                  {device.prediction === 0 ? "YES" : "NO"}
                 </TableCell>
                 <TableCell className="text-center text-xs">
                   <RiskMeter
