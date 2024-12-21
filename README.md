@@ -59,21 +59,23 @@ Follow the following repository's readme guide :
 
 Contributions are welcome and appreciated! If you'd like to contribute to **NetLine**, please follow these steps:
 
--  **Fork the Repository**: Click the "Fork" button in the top-right corner of this repository.
--  **Clone Your Fork**:  
+1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/NetLine.git
-
-- **Create a New Branch**:
+   git clone https://github.com/Naman-B-Parlecha/NetLine.git
+   ```
+2. Create a new branch:
    ```bash
-      git checkout -b feature/YourFeatureName
-
-- **Make Your Changes**: Implement your feature or fix an issue.
-- **Test Your Changes**: Ensure your code works as intended and does not break existing functionality.
-- **Push to Your Fork**:
+   git checkout -b feature/YourFeatureName
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git commit -m "Add your message here"
+   ```
+4. Push your branch:
    ```bash
    git push origin feature/YourFeatureName
-- **Submit a Pull Request**: Navigate to this repository and click "New Pull Request" to propose your changes.
+   ```
+5. Submit a pull request.
 
 ## License
 
