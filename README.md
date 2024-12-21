@@ -2,6 +2,14 @@
 # NetLine
 NetLine is a sophisticated tool designed for discovering and visualizing the topology of SCADA (Supervisory Control and Data Acquisition) networks. This user interface, built primarily with TypeScript, provides a seamless and intuitive experience for users to interact with network data, facilitating effective monitoring and management of SCADA systems.
 
+## Table Of Contents
+
+* [Architecture](#architecture)
+* [Features](#features)
+* [Installation](#installation)
+* [Contributing](#contributing)
+* [License](#license)
+
 ## Architecture
 
 ![Architecture Diagram](./architecture.png)
@@ -25,6 +33,7 @@ NetLine is a sophisticated tool designed for discovering and visualizing the top
 - Track and manage changes in network visualization with built-in version control support.
 
 ## Installation
+
 #### FRONTEND SETUP
 - Clone the repository:  
    `git clone https://github.com/Naman-B-Parlecha/NetLine.git`
@@ -65,4 +74,8 @@ Contributions are welcome and appreciated! If you'd like to contribute to **NetL
    ```bash
    git push origin feature/YourFeatureName
 - **Submit a Pull Request**: Navigate to this repository and click "New Pull Request" to propose your changes.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](https://github.com/Naman-Parlecha/NetLine/blob/main/LICENSE.md) for more information.
 
