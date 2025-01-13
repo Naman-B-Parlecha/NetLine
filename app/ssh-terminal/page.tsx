@@ -51,7 +51,7 @@ const SSHTerminal: React.FC = () => {
             throw new Error("Not connected. Use 'connect <host>'");
           }
           const response = await axios.post(
-            `http://localhost:8000/ssh?ip=${routerDetails.host}&command=${currentCommand}`,
+            `https://infra-net-line.vercel.app/ssh?ip=${routerDetails.host}&command=${currentCommand}`,
             {},
             {
               headers: {

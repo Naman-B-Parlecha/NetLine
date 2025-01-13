@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function getNetflowData() {
   try {
-    const netflowData = await axios.get(`http://localhost:8000/netflow`);
+    const netflowData = await axios.get(`https://infra-net-line.vercel.app/netflow`);
     console.log(netflowData.data);
     return netflowData.data;
   } catch (error) {
@@ -14,7 +14,7 @@ export async function getNetflowData() {
 
 export async function getSysLog() {
   try {
-    const SysLog = await axios.get(`http://localhost:8000/syslog`);
+    const SysLog = await axios.get(`https://infra-net-line.vercel.app/syslog`);
     console.log(SysLog.data);
     return SysLog.data;
   } catch (error) {
@@ -25,7 +25,7 @@ export async function getSysLog() {
 
 export async function getNetworkMonitoring() {
   try {
-    const networkMonitoring = await axios.get(`http://localhost:8000/networkMonitoring`);
+    const networkMonitoring = await axios.get(`https://infra-net-line.vercel.app/networkMonitoring`);
     console.log(networkMonitoring.data);
     return networkMonitoring.data;
   } catch (error) {
@@ -38,7 +38,7 @@ export async function getNetworkMonitoring() {
 export async function getNetwork(selectedVersion: number | null) {
   try {
     let nodes = await axios.get(
-      `http://localhost:8000/network/${selectedVersion}`  
+      `https://infra-net-line.vercel.app/network/${selectedVersion}`  
     );
     console.log("NETWORK DATA:",nodes['data']);
     // for(let i=0; i<nodes['data']['interfaces'].length; i++){
@@ -67,7 +67,7 @@ export async function getNetwork(selectedVersion: number | null) {
 
 export async function getVersions() {
   try {
-    const versions = await axios.get(`http://localhost:8000/versions`);
+    const versions = await axios.get(`https://infra-net-line.vercel.app/versions`);
     console.log("version ->", versions.data);
     let list: any = [];
     versions.data.map((item: any) => {
@@ -84,7 +84,7 @@ export async function getVersions() {
 
 // export async function getNetwork() {
 //   try {
-//     const nodes = await axios.get(`http://localhost:8000/network`);
+//     const nodes = await axios.get(`https://infra-net-line.vercel.app/network`);
 //     // console.log(nodes.data);
 //     return nodes.data;
 //   } catch (error) {
@@ -100,7 +100,7 @@ export async function getVersions() {
 
 export async function getNetFlowById(id: string) {
   try {
-    const netflowData = await axios.get(`http://localhost:8000/netflow/${id}`);
+    const netflowData = await axios.get(`https://infra-net-line.vercel.app/netflow/${id}`);
     console.log(netflowData.data);
     const filterdata =
       netflowData.data.length > 25 ? netflowData.data.slice(-50) : [];
