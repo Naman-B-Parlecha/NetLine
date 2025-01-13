@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import {
   Card,
@@ -130,7 +130,7 @@ export default function RouterDataFlowHeatmap() {
     dst_ip: "",
   });
 
-  const updateHeatmap = () => {
+  const updateHeatmap = useCallback(() => {
     console.log("here in heatmap", newNetFlowData)
     // Assuming accumulateData is a function that aggregates the data
     const aggregatedData = accumulateData(newNetFlowData, filters);
@@ -271,11 +271,11 @@ export default function RouterDataFlowHeatmap() {
         .style("font-size", "12px")
         .text("Data Flow");
     }
-  };
+  },[filters, newNetFlowData]);
 
   useEffect(() => {
     updateHeatmap();
-  }, [newNetFlowData, filters]);
+  }, [newNetFlowData, filters, updateHeatmap]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

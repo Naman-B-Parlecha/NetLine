@@ -47,7 +47,7 @@ const NetflowModal: React.FC<ModalProps> = ({
     };
 
     fetchfnc();
-  }, [srcIP, option]);
+  }, [srcIP, option, destIP]);
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-white p-6 rounded-lg shadow-lg max-w-3xl mx-auto">

@@ -238,7 +238,7 @@ const NetworkGraph = ({
     return () => {
       svg.selectAll("*").remove();
     };
-  }, [nodesData, linksData, selectedNode, showAdjacency]);
+  }, [nodesData, linksData, selectedNode, showAdjacency,setSelectedNode]);
 
   const drag = (simulation) => {
     return d3
