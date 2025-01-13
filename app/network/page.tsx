@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { getNetwork, getVersions } from "@/serverActions";
 import { LuLoader2 } from "react-icons/lu";
 import VersionSelector from "../components/Network/VersionSelector";
+import SocketProvider from "../components/SocketProvider";
 
 export default function Home() {
   const router = useRouter();
@@ -84,41 +85,43 @@ export default function Home() {
   }, [selectedVersion]);
 
   return (
-    <main className="flex h-screen w-full">
-      <section className="w-3/4 bg-gray-300/20 p-4">
-        <div className="w-full flex justify-between align-baseline">
-          <h1 className="text-3xl font-bold font-mono pb-4">
-            Current Network State
-          </h1>
-          <VersionSelector
-            isloading={isLoading}
-            versions={versions}
-            selectedVersion={selectedVersion}
-            onVersionChange={setSelectedVersion}
-          />
-        </div>
-        {isLoading ? (
-          <div className="w-full h-[30rem] flex justify-center items-center">
-            <LuLoader2 className="animate-spin" size={30} />
+    <SocketProvider>
+        <main className="flex h-screen w-full">
+        <section className="w-3/4 bg-gray-300/20 p-4">
+          <div className="w-full flex justify-between align-baseline">
+            <h1 className="text-3xl font-bold font-mono pb-4">
+              Current Network State
+            </h1>
+            <VersionSelector
+              isloading={isLoading}
+              versions={versions}
+              selectedVersion={selectedVersion}
+              onVersionChange={setSelectedVersion}
+            />
           </div>
-        ) : (
-          <NetworkGraph
-            key={refreshKey}
-            nodesData={nodes}
-            linksData={links}
-            selectedNode={selectedNode}
-            setSelectedNode={setSelectedNode}
+          {isLoading ? (
+            <div className="w-full h-[30rem] flex justify-center items-center">
+              <LuLoader2 className="animate-spin" size={30} />
+            </div>
+          ) : (
+            <NetworkGraph
+              key={refreshKey}
+              nodesData={nodes}
+              linksData={links}
+              selectedNode={selectedNode}
+              setSelectedNode={setSelectedNode}
+              showAdjacency={showAdjacency}
+            />
+          )}
+          <ButtonGroup
+            onAdjacencyCheck={handleAdjacencyCheck}
+            onResetAdjacenyCheck={resetAdjacencyCheck}
             showAdjacency={showAdjacency}
+            handleRefresh={handleRefresh}
           />
-        )}
-        <ButtonGroup
-          onAdjacencyCheck={handleAdjacencyCheck}
-          onResetAdjacenyCheck={resetAdjacencyCheck}
-          showAdjacency={showAdjacency}
-          handleRefresh={handleRefresh}
-        />
-      </section>
-      <Console loading={isLoading} key={refreshKey} logs={snmpData} />
-    </main>
+        </section>
+        <Console loading={isLoading} key={refreshKey} logs={snmpData} />
+      </main>
+    </SocketProvider>
   );
 }

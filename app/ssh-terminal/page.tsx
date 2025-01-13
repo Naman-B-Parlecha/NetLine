@@ -51,7 +51,7 @@ const SSHTerminal: React.FC = () => {
             throw new Error("Not connected. Use 'connect <host>'");
           }
           const response = await axios.post(
-            `http://localhost:8000/ssh?ip=192.168.1.1&command=show ip interface brief`,
+            `http://localhost:8000/ssh?ip=${routerDetails.host}&command=${currentCommand}`,
             {},
             {
               headers: {
@@ -128,7 +128,7 @@ const SSHTerminal: React.FC = () => {
           >
             <span className="text-white">➜</span>{" "}
             <span className="text-gray-300">{entry.command}</span>
-            <div className="pl-4 text-white">{entry.output}</div>
+            <div className="pl-4 text-white"><pre>{entry.output}</pre></div>
           </div>
         ))}
 

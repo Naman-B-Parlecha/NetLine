@@ -26,7 +26,7 @@ import { LuLoader2 } from "react-icons/lu";
 import NetflowModal from "@/components/ui/netflowModal";
 
 // Utility function to accumulate the last 25 values per src_ip-dst_ip pair
-const accumulateData = (data: any[], filters: FilterOptions) => {
+const accumulateData = (data: any[] = [], filters: FilterOptions) => {
   // Apply filters
   const filteredData = data.filter((d) => {
     const dataDate = new Date(d.timestamp);
@@ -110,7 +110,7 @@ export default function RouterDataFlowHeatmap() {
         setLoading(true);
         const netflowData = await getNetflowData();
         console.log("Fetched data: ", netflowData); // Check the structure here
-        setNewNetFlowData(netflow);
+        setNewNetFlowData(netflowData);
       } catch (error) {
         console.error("Error fetching netflow data:", error);
         setNewNetFlowData([]);
@@ -131,6 +131,7 @@ export default function RouterDataFlowHeatmap() {
   });
 
   const updateHeatmap = () => {
+    console.log("here in heatmap", newNetFlowData)
     // Assuming accumulateData is a function that aggregates the data
     const aggregatedData = accumulateData(newNetFlowData, filters);
 

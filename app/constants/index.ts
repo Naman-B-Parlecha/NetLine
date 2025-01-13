@@ -155,7 +155,7 @@ export const nodelinks = links;
 //     { source: 6, target: 37 },
 // ];
 
-export const logs = [
+export let logs = [
     {
         event: "Pressure threshold exceeded at Node 12.",
         time: "2024-09-09T10:30:00Z",
@@ -208,7 +208,7 @@ export const logs = [
     }
 ];
 
-export const snmpData = [
+export let snmpData = [
     {
         index: 1,
         timestamp: '2024-09-15T08:45:00Z',
@@ -262,30 +262,30 @@ export const snmpData = [
 
 
 
-export const mockLogs = [
+export let mockLogs = [
     {
         id: 1,
         timestamp: "2023-09-08T14:30:24Z",
         severity: "INFO",
-        message: "%SYS-6-LOGGINGHOST_STARTSTOP: Logging to host 192.168.1.1 started - CLI initiated",
+        message: "%SYS-6-LOGGINGHOST_STARTSTOP: Logging to host 192.168.100.1 started - CLI initiated",
         source: "Router1",
-        host: "192.168.1.1"
+        host: "192.168.100.5"
     },
     {
         id: 2,
-        timestamp: "2023-09-09T09:20:45Z",
-        severity: "notice",
-        message: "%CPU-2-notice: CPU usage exceeded 80% threshold",
-        source: "Switch2",
-        host: "192.168.1.2"
+        timestamp: "2023-09-08T14:35:10Z",
+        severity: "WARNING",
+        message: "%LINEPROTO-4-ERROR: Line protocol on Interface FastEthernet0/1, changed state to down",
+        source: "Router2",
+        host: "192.168.100.6"
     },
     {
         id: 3,
         timestamp: "2023-09-08T14:40:05Z",
         severity: "ERROR",
-        message: "%DUAL-5-NBRCHANGE: IP-EIGRP(0) 100: Neighbor 192.168.1.3 (FastEthernet1/1) is down: Manual intervention required",
+        message: "%DUAL-5-NBRCHANGE: IP-EIGRP(0) 100: Neighbor 192.168.108.3 (FastEthernet1/1) is down: Manual intervention required",
         source: "Router3",
-        host: "192.168.1.3"
+        host: "192.168.100.7"
     },
     {
         id: 4,
@@ -293,23 +293,23 @@ export const mockLogs = [
         severity: "INFO",
         message: "%SYS-5-RESTART: System restarted at 15:00:30",
         source: "Router4",
-        host: "192.168.1.4"
+        host: "192.168.100.8"
     },
     {
         id: 5,
         timestamp: "2023-09-08T18:30:22Z",
-        severity: "UNKOWN",
-        message: "%SYS-5-UNKNOWN: System restarted at 15:00:30",
-        source: "Router5",
-        host: "192.168.1.5"
+        severity: "WARNING",
+        message: "%LINK-3-UPDOWN: Interface FastEthernet2/0, changed state to up",
+        source: "Switch1",
+        host: "192.168.100.9"
     },
     {
         id: 6,
         timestamp: "2023-09-08T19:05:15Z",
         severity: "ERROR",
-        message: "%BGP-3-NEGOTIATION: BGP session with 192.168.1.1 failed: No response from peer",
+        message: "%BGP-3-NEGOTIATION: BGP session with 192.168.200.1 failed: No response from peer",
         source: "Router5",
-        host: "192.168.1.6"
+        host: "192.168.100.10"
     },
     {
         id: 7,
@@ -317,7 +317,7 @@ export const mockLogs = [
         severity: "INFO",
         message: "%SYS-5-CONFIG_I: Configured from console by user admin",
         source: "Router1",
-        host: "192.168.1.7"
+        host: "192.168.100.5"
     },
     {
         id: 8,
@@ -325,7 +325,7 @@ export const mockLogs = [
         severity: "WARNING",
         message: "%CPU-2-HIGHUTIL: CPU usage exceeded 80% threshold",
         source: "Switch2",
-        host: "192.168.1.8"
+        host: "192.168.100.11"
     },
     {
         id: 9,
@@ -333,15 +333,15 @@ export const mockLogs = [
         severity: "ERROR",
         message: "%DISK-4-FULL: Disk space on device /dev/sda1 is 95% full",
         source: "Server1",
-        host: "192.168.1.9"
+        host: "192.168.100.12"
     },
     {
         id: 10,
         timestamp: "2023-09-09T11:30:00Z",
         severity: "INFO",
-        message: "%SYS-6-LOGGINGHOST_STOP: Logging to host 192.168.1.2 stopped - CLI initiated",
+        message: "%SYS-6-LOGGINGHOST_STOP: Logging to host 192.168.100.2 stopped - CLI initiated",
         source: "Router2",
-        host: "192.168.1.10"
+        host: "192.168.100.6"
     }
 ];
 
@@ -364,12 +364,12 @@ export const mockLogs = [
 // 8. **Debug**
 
 
-export const sysLogData = [
+export let sysLogData = [
     {
         "id": 1,
         "timestamp1": "1900-09-09T11:55:53",
         "timestamp2": "1900-03-01T09:52:13.577000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.1",
         "severity": "5",
         "message": "SYS-CONFIG_I:Configured from console by console"
     },
@@ -377,7 +377,7 @@ export const sysLogData = [
         "id": 2,
         "timestamp1": "1900-09-10T00:58:14",
         "timestamp2": "1900-03-01T13:22:17.520000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.1",
         "severity": "5",
         "message": "SYS-CONFIG_I:Configured from console by console"
     },
@@ -385,7 +385,7 @@ export const sysLogData = [
         "id": 3,
         "timestamp1": "1900-09-10T00:59:43",
         "timestamp2": "1900-03-01T13:23:53.416000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.1",
         "severity": "5",
         "message": "SYS-CONFIG_I:Configured from console by console"
     },
@@ -393,7 +393,7 @@ export const sysLogData = [
         "id": 4,
         "timestamp1": "1900-09-10T01:01:15",
         "timestamp2": "1900-03-01T13:25:25.324000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.1",
         "severity": "5",
         "message": "SYS-CONFIG_I:Configured from console by console"
     },
@@ -401,7 +401,7 @@ export const sysLogData = [
         "id": 5,
         "timestamp1": "1900-09-10T01:02:09",
         "timestamp2": "1900-03-01T13:26:19.388000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.1",
         "severity": "5",
         "message": "LINK-CHANGED:Interface FastEthernet0/1, changed state to administratively down"
     },
@@ -409,7 +409,7 @@ export const sysLogData = [
         "id": 6,
         "timestamp1": "1900-09-10T01:02:09",
         "timestamp2": "1900-03-01T13:26:20.300000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.1",
         "severity": "5",
         "message": "SYS-CONFIG_I:Configured from console by console"
     },
@@ -417,7 +417,7 @@ export const sysLogData = [
         "id": 7,
         "timestamp1": "1900-09-10T01:02:09",
         "timestamp2": "1900-03-01T13:26:20.388000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.1",
         "severity": "5",
         "message": "LINEPROTO-UPDOWN:Line protocol on Interface FastEthernet0/1, changed state to down"
     },
@@ -425,7 +425,7 @@ export const sysLogData = [
         "id": 8,
         "timestamp1": "1900-09-10T01:03:13",
         "timestamp2": "1900-03-01T13:27:23.636000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.3",
         "severity": "3",
         "message": "LINK-UPDOWN:Interface FastEthernet0/1, changed state to up"
     },
@@ -433,7 +433,7 @@ export const sysLogData = [
         "id": 9,
         "timestamp1": "1900-09-10T01:03:14",
         "timestamp2": "1900-03-01T13:27:24.132000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.3",
         "severity": "5",
         "message": "SYS-CONFIG_I:Configured from console by console"
     },
@@ -441,7 +441,7 @@ export const sysLogData = [
         "id": 10,
         "timestamp1": "1900-09-10T01:03:14",
         "timestamp2": "1900-03-01T13:27:24.636000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.3",
         "severity": "5",
         "message": "LINEPROTO-UPDOWN:Line protocol on Interface FastEthernet0/1, changed state to up"
     },
@@ -449,7 +449,7 @@ export const sysLogData = [
         "id": 11,
         "timestamp1": "1900-09-10T15:01:42",
         "timestamp2": "1900-03-01T15:20:34.612000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.3",
         "severity": "5",
         "message": "SYS-CONFIG_I:Configured from console by console"
     },
@@ -457,7 +457,7 @@ export const sysLogData = [
         "id": 12,
         "timestamp1": "1900-09-10T15:08:55",
         "timestamp2": "1900-03-01T00:00:03.159000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.3",
         "severity": "6",
         "message": "SYS-LOGGINGHOST_STARTSTOP:Logging to host 192.168.100.1 started - CLI initiated"
     },
@@ -465,7 +465,7 @@ export const sysLogData = [
         "id": 13,
         "timestamp1": "1900-09-10T15:08:57",
         "timestamp2": "1900-03-01T00:00:04.107000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.3",
         "severity": "5",
         "message": "LINEPROTO-UPDOWN:Line protocol on Interface FastEthernet0/0, changed state to up"
     },
@@ -473,7 +473,7 @@ export const sysLogData = [
         "id": 14,
         "timestamp1": "1900-09-10T15:08:57",
         "timestamp2": "1900-03-01T00:00:04.115000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.4",
         "severity": "5",
         "message": "LINEPROTO-UPDOWN:Line protocol on Interface FastEthernet0/1, changed state to up"
     },
@@ -481,7 +481,7 @@ export const sysLogData = [
         "id": 15,
         "timestamp1": "1900-09-10T15:08:57",
         "timestamp2": "1900-03-01T00:00:04.143000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.4",
         "severity": "5",
         "message": "LINEPROTO-UPDOWN:Line protocol on Interface FastEthernet1/0, changed state to up"
     },
@@ -497,7 +497,7 @@ export const sysLogData = [
         "id": 17,
         "timestamp1": "1900-09-10T15:11:49",
         "timestamp2": "1900-03-01T00:02:49.635000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.4",
         "severity": "5",
         "message": "DUAL-NBRCHANGE:IP-EIGRP(0) 100: Neighbor 192.168.108.2 (FastEthernet1/0) is down: holding time expired"
     },
@@ -505,7 +505,7 @@ export const sysLogData = [
         "id": 18,
         "timestamp1": "1900-09-10T19:58:19",
         "timestamp2": "1900-03-01T03:00:28.975000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.4",
         "severity": "5",
         "message": "LINEPROTO-UPDOWN:Line protocol on Interface NVI0, changed state to up"
     },
@@ -513,7 +513,7 @@ export const sysLogData = [
         "id": 19,
         "timestamp1": "1900-09-10T19:58:22",
         "timestamp2": "1900-03-01T03:00:35.435000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.4",
         "severity": "3",
         "message": "SYS-CPUHOG:Task is running for (2036)msecs, more than (2000)msecs (0/0),process = Exec."
     },
@@ -521,11 +521,12 @@ export const sysLogData = [
         "id": 20,
         "timestamp1": "1900-09-10T19:58:22",
         "timestamp2": "1900-03-01T03:00:36.719000",
-        "ip_address": "192.168.100.5",
+        "ip_address": "192.168.100.4",
         "severity": "3",
         "message": "SYS-CPUYLD:Task ran for (3320)msecs, more than (2000)msecs (0/0),process = Exec"
     }
 ]
+
 export const NetworkDeviceMonitor = [
     {
         monitor: "Router 1",
@@ -536,7 +537,7 @@ export const NetworkDeviceMonitor = [
         osVersion: "Cisco IOS Software [3750]",
         model: "3750",
         risk: 12,
-        downTimeCount: 2
+        downTimeCount: "NO"
     },
     {
         monitor: "Router 2",
@@ -546,8 +547,8 @@ export const NetworkDeviceMonitor = [
         group: "SCADA > Gas Pipeline",
         osVersion: "Cisco IOS Software [3750]",
         model: "3750",
-        risk: 24,
-        downTimeCount: 0
+        risk: 7,
+        downTimeCount: "NO"
     },
     {
         monitor: "Router 3",
@@ -558,7 +559,7 @@ export const NetworkDeviceMonitor = [
         osVersion: "Cisco IOS Software [3750]",
         model: "3750",
         risk: 9,
-        downTimeCount: 3
+        downTimeCount: "NO"
     },
     {
         monitor: "Router 4",
@@ -569,29 +570,18 @@ export const NetworkDeviceMonitor = [
         osVersion: "Cisco IOS Software [3750]",
         model: "3750",
         risk: 34,
-        downTimeCount: 1
+        downTimeCount: "YES"
     },
     {
         monitor: "Router 5",
-        status: "up",
+        status: "down",
         ip: "192.168.1.5",
         type: "router",
         group: "SCADA > Gas Pipeline",
         osVersion: "Cisco IOS Software [3750]",
         model: "3750",
-        risk: 29,
-        downTimeCount: 0
-    },
-    {
-        monitor: "Router 6",
-        status: "up",
-        ip: "192.168.1.6",
-        type: "router",
-        group: "SCADA > Gas Pipeline",
-        osVersion: "Cisco IOS Software [3750]",
-        model: "3750",
-        risk: 12,
-        downTimeCount: 2
+        risk: 17,
+        downTimeCount: "NO"
     },
 ];
 
@@ -1156,270 +1146,3 @@ export const singleRouterData = {
         "gauge": { "value": 88, "size": "large" }
     },
 }
-
-
-
-export const snmpmock = [
-    {
-        metricName: "ifMetric_469f52b2",
-        oid: "1.3.6.1.2.1.88.25",
-        description: "High-capacity counter for inbound traffic",
-        interfaceType: "Loopback",
-        adminStatus: "Up",
-        operStatus: "Unknown",
-        inboundOctets: 361281550,
-        outboundOctets: 491611128,
-        inboundErrors: 896,
-        outboundErrors: 165,
-    },
-    {
-        metricName: "ifMetric_92c18715",
-        oid: "1.3.6.1.2.1.59.11",
-        description: "High-capacity counter for inbound traffic",
-        interfaceType: "WiFi",
-        adminStatus: "Down",
-        operStatus: "Up",
-        inboundOctets: 124172193,
-        outboundOctets: 52945435,
-        inboundErrors: 184,
-        outboundErrors: 722,
-    },
-    {
-        metricName: "ifMetric_f17b629e",
-        oid: "1.3.6.1.2.1.55.42",
-        description: "Operational status of interface",
-        interfaceType: "WiFi",
-        adminStatus: "Down",
-        operStatus: "Up",
-        inboundOctets: 392748645,
-        outboundOctets: 540391686,
-        inboundErrors: 851,
-        outboundErrors: 58,
-    },
-    {
-        metricName: "ifMetric_e8ab8ae9",
-        oid: "1.3.6.1.2.1.89.44",
-        description: "High-capacity counter for inbound traffic",
-        interfaceType: "PPP",
-        adminStatus: "Unknown",
-        operStatus: "Testing",
-        inboundOctets: 95930574,
-        outboundOctets: 440087935,
-        inboundErrors: 497,
-        outboundErrors: 835,
-    }, {
-        metricName: "ifMetric_abc12345",
-        oid: "1.3.6.1.2.1.10.11",
-        description: "Low-capacity counter for inbound traffic",
-        interfaceType: "Ethernet",
-        adminStatus: "Up",
-        operStatus: "Up",
-        inboundOctets: 481920183,
-        outboundOctets: 583728492,
-        inboundErrors: 203,
-        outboundErrors: 135,
-    },
-    {
-        metricName: "ifMetric_469f52b2",
-        oid: "1.3.6.1.2.1.88.25",
-        description: "High-capacity counter for inbound traffic",
-        interfaceType: "Loopback",
-        adminStatus: "Up",
-        operStatus: "Unknown",
-        inboundOctets: 361281550,
-        outboundOctets: 491611128,
-        inboundErrors: 896,
-        outboundErrors: 165,
-    },
-    {
-        metricName: "ifMetric_df2a5c7f",
-        oid: "1.3.6.1.2.1.30.50",
-        description: "Operational status of interface",
-        interfaceType: "Ethernet",
-        adminStatus: "Down",
-        operStatus: "Down",
-        inboundOctets: 93966523,
-        outboundOctets: 28947447,
-        inboundErrors: 857,
-        outboundErrors: 150,
-    },
-    {
-        metricName: "ifMetric_22b9589e",
-        oid: "1.3.6.1.2.1.43.39",
-        description: "Low-capacity counter for outbound traffic",
-        interfaceType: "WiFi",
-        adminStatus: "Testing",
-        operStatus: "Unknown",
-        inboundOctets: 945209920,
-        outboundOctets: 223467493,
-        inboundErrors: 256,
-        outboundErrors: 311,
-    },
-    {
-        metricName: "ifMetric_a74949ec",
-        oid: "1.3.6.1.2.1.16.19",
-        description: "MAC address of interface",
-        interfaceType: "WiFi",
-        adminStatus: "Up",
-        operStatus: "Testing",
-        inboundOctets: 255306520,
-        outboundOctets: 240206430,
-        inboundErrors: 726,
-        outboundErrors: 731,
-    },
-    {
-        metricName: "ifMetric_dac7e109",
-        oid: "1.3.6.1.2.1.55.47",
-        description: "Operational status of interface",
-        interfaceType: "WiFi",
-        adminStatus: "Up",
-        operStatus: "Unknown",
-        inboundOctets: 865317392,
-        outboundOctets: 730733097,
-        inboundErrors: 587,
-        outboundErrors: 433,
-    },
-    {
-        metricName: "ifMetric_4cf03251",
-        oid: "1.3.6.1.2.1.35.14",
-        description: "Low-capacity counter for inbound traffic",
-        interfaceType: "Ethernet",
-        adminStatus: "Up",
-        operStatus: "Testing",
-        inboundOctets: 169790850,
-        outboundOctets: 44667695,
-        inboundErrors: 463,
-        outboundErrors: 498,
-    },
-    {
-        metricName: "ifMetric_e8ab8ae9",
-        oid: "1.3.6.1.2.1.89.44",
-        description: "High-capacity counter for inbound traffic",
-        interfaceType: "PPP",
-        adminStatus: "Unknown",
-        operStatus: "Testing",
-        inboundOctets: 95930574,
-        outboundOctets: 440087935,
-        inboundErrors: 497,
-        outboundErrors: 835,
-    }, {
-        metricName: "ifMetric_abc12345",
-        oid: "1.3.6.1.2.1.10.11",
-        description: "Low-capacity counter for inbound traffic",
-        interfaceType: "Ethernet",
-        adminStatus: "Up",
-        operStatus: "Up",
-        inboundOctets: 481920183,
-        outboundOctets: 583728492,
-        inboundErrors: 203,
-        outboundErrors: 135,
-    },
-    {
-        metricName: "ifMetric_def67890",
-        oid: "1.3.6.1.2.1.55.22",
-        description: "High-capacity counter for outbound traffic",
-        interfaceType: "WiFi",
-        adminStatus: "Down",
-        operStatus: "Unknown",
-        inboundOctets: 298374647,
-        outboundOctets: 472910384,
-        inboundErrors: 167,
-        outboundErrors: 298,
-    },
-    {
-        metricName: "ifMetric_ghijk567",
-        oid: "1.3.6.1.2.1.33.44",
-        description: "MAC address of interface",
-        interfaceType: "PPP",
-        adminStatus: "Testing",
-        operStatus: "Testing",
-        inboundOctets: 673849020,
-        outboundOctets: 392847392,
-        inboundErrors: 92,
-        outboundErrors: 75,
-    },
-    {
-        metricName: "ifMetric_lmnop901",
-        oid: "1.3.6.1.2.1.42.21",
-        description: "Operational status of interface",
-        interfaceType: "Loopback",
-        adminStatus: "Up",
-        operStatus: "Up",
-        inboundOctets: 574938201,
-        outboundOctets: 438291023,
-        inboundErrors: 412,
-        outboundErrors: 278,
-    },
-    {
-        metricName: "ifMetric_qrstuv23",
-        oid: "1.3.6.1.2.1.88.12",
-        description: "High-capacity counter for inbound traffic",
-        interfaceType: "WiFi",
-        adminStatus: "Unknown",
-        operStatus: "Down",
-        inboundOctets: 473829120,
-        outboundOctets: 938120432,
-        inboundErrors: 584,
-        outboundErrors: 422,
-    },
-    {
-        metricName: "ifMetric_wxyz4567",
-        oid: "1.3.6.1.2.1.77.19",
-        description: "MAC address of interface",
-        interfaceType: "Ethernet",
-        adminStatus: "Down",
-        operStatus: "Down",
-        inboundOctets: 283947123,
-        outboundOctets: 574910382,
-        inboundErrors: 397,
-        outboundErrors: 498,
-    },
-    {
-        metricName: "ifMetric_abcd9876",
-        oid: "1.3.6.1.2.1.16.28",
-        description: "Low-capacity counter for inbound traffic",
-        interfaceType: "WiFi",
-        adminStatus: "Up",
-        operStatus: "Testing",
-        inboundOctets: 384920174,
-        outboundOctets: 827193018,
-        inboundErrors: 128,
-        outboundErrors: 291,
-    },
-    {
-        metricName: "ifMetric_efgh5432",
-        oid: "1.3.6.1.2.1.13.11",
-        description: "Operational status of interface",
-        interfaceType: "PPP",
-        adminStatus: "Testing",
-        operStatus: "Unknown",
-        inboundOctets: 928374910,
-        outboundOctets: 473910284,
-        inboundErrors: 167,
-        outboundErrors: 75,
-    },
-    {
-        metricName: "ifMetric_ijkl0987",
-        oid: "1.3.6.1.2.1.90.34",
-        description: "High-capacity counter for inbound traffic",
-        interfaceType: "Loopback",
-        adminStatus: "Up",
-        operStatus: "Up",
-        inboundOctets: 283947102,
-        outboundOctets: 839201284,
-        inboundErrors: 63,
-        outboundErrors: 101,
-    },
-    {
-        metricName: "ifMetric_mnop7654",
-        oid: "1.3.6.1.2.1.45.78",
-        description: "MAC address of interface",
-        interfaceType: "Ethernet",
-        adminStatus: "Down",
-        operStatus: "Up",
-        inboundOctets: 847193028,
-        outboundOctets: 928374930,
-        inboundErrors: 489,
-        outboundErrors: 342,
-    },
-];
